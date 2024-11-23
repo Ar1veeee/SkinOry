@@ -135,17 +135,39 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   ```json
   {
     "products": [
-      {
-        "id_product": 2,
-        "name_product": "Example Product",
-        "skin_type": "dry",
-        "category": "toner",
-        "usage_time": "night",
-        "image_url": "link_image",
-        "price": 20000,
-        "rating": 4.7,
-        "created_at": "2024-11-22T09:07:21.000Z"
-      }
+        {
+            "id_product": 2,
+            "name_product": "Jaya Toner",
+            "skin_type": "dry",
+            "category": "toner",
+            "usage_time": "night",
+            "image_url": "ceritanya link",
+            "price": "20000.00",
+            "rating": "4.70",
+            "created_at": "2024-11-22T09:07:21.000Z"
+        },
+        {
+            "id_product": 3,
+            "name_product": "Skintific Toner",
+            "skin_type": "dry",
+            "category": "toner",
+            "usage_time": "night",
+            "image_url": "ceritanya link",
+            "price": "20000.00",
+            "rating": "4.70",
+            "created_at": "2024-11-23T10:23:57.000Z"
+        },
+        {
+            "id_product": 4,
+            "name_product": "Alief Toner",
+            "skin_type": "dry",
+            "category": "toner",
+            "usage_time": "night",
+            "image_url": "ceritanya link",
+            "price": "20000.00",
+            "rating": "4.70",
+            "created_at": "2024-11-23T10:24:10.000Z"
+        }
     ]
   }
   ```
@@ -193,15 +215,7 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
 
   ```json
   {
-    "routines": [
-      {
-        "id_product": 1,
-        "name_product": "Makmur Toner",
-        "usage_time": "night",
-        "applied": 1,
-        "skin_type": "oily"
-      }
-    ]
+    "message": "Applied status updated successfully"
   }
   ```
 
