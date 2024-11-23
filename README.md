@@ -126,7 +126,7 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   }
   ```
 
-  ### 4. **Lihat Rekomendasi Produk**
+### 4. **Lihat Rekomendasi Produk**
 
 - **URL**: `/routine/:user_id/:usage_time/:category`
 - **Metode**: `GET`
@@ -179,7 +179,7 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   }
   ```
 
-  ### 6. **Update Applied Skincare**
+### 6. **Update Applied Skincare**
 
 - **URL**: `/routine/:user_id/:product_id`
 - **Metode**: `PATCH`
@@ -194,13 +194,13 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   ```json
   {
     "routines": [
-        {
-            "id_product": 1,
-            "name_product": "Makmur Toner",
-            "usage_time": "night",
-            "applied": 1,
-            "skin_type": "oily"
-        },
+      {
+        "id_product": 1,
+        "name_product": "Makmur Toner",
+        "usage_time": "night",
+        "applied": 1,
+        "skin_type": "oily"
+      }
     ]
   }
   ```
