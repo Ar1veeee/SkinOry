@@ -101,7 +101,11 @@ exports.updateAppliedStatus = async (req, res) => {
   const { product_id, user_id } = req.params;
   const { applied } = req.body;
 
-  if (!user_id || !product_id || !applied) {
+  if (
+    user_id === undefined ||
+    product_id === undefined ||
+    applied === undefined
+  ) {
     return res.status(400).json({
       message: "User ID, Product ID, and Applied status are required",
     });

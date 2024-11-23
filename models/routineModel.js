@@ -7,12 +7,16 @@ const Routine = {
       VALUES (?, ?, ?, ?)
     `;
     return new Promise((resolve, reject) => {
-      db.query(query, [user_id, product_id, usage_time, category], (error, result) => {
-        if (error) {
-          reject(error);
+      db.query(
+        query,
+        [user_id, product_id, usage_time, category],
+        (error, result) => {
+          if (error) {
+            reject(error);
+          }
+          resolve(result);
         }
-        resolve(result);
-      });
+      );
     });
   },
 
@@ -71,15 +75,19 @@ const Routine = {
       WHERE user_id = ? AND product_id = ?
     `;
     return new Promise((resolve, reject) => {
-      db.query(query, [applied, user_id, product_id], (error, result) => {
-        if (error) {
-          reject(error);
+      db.query(
+        query,
+        [applied ? 1 : 0, user_id, product_id],
+        (error, result) => {
+          if (error) {
+            reject(error);
+          }
+          if (result.affectedRows === 0) {
+            reject(new Error("No matching routine found to update"));
+          }
+          resolve(result);
         }
-        if (result.affectedRows === 0) {
-          reject(new Error("No matching routine found to update"));
-        }
-        resolve(result);
-      });
+      );
     });
   },
 };

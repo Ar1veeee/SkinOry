@@ -69,6 +69,8 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
 
 ## Endpoints
 
+## Autentikasi
+
 ### 1. **Registrasi Pengguna**
 
 - **URL**: `/auth/register`
@@ -97,7 +99,8 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   ```json
   {
     "message": "Login berhasil",
-    "token": "expected_token"
+    "active_token": "expected_active_token",
+    "refresh_token": "expected_refresh_token"
   }
   ```
 
@@ -106,52 +109,26 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
 ### 3. **Skincare Routine List**
 
 - **URL**: `/routine/:user_id`
-- **Metode**: `POST`
-  **Body**:
-  ```json
-  {
-    "product_id": 1
-  }
-  ```
+- **Metode**: `GET`
 - **Response**:
 
   ```json
   {
-    "message": "Routine added successfully",
-    "product": {
-      "id_product": 1,
-      "name_product": "Makmur Toner",
-      "skin_type": "oily",
-      "category": "toner",
-      "usage_time": "night",
-      "image_url": "ceritanya link",
-      "price": "20000.00",
-      "rating": "4.70",
-      "created_at": "2024-11-22T09:07:10.000Z"
-    }
+    "routines": [
+      {
+        "id_product": 1,
+        "name_product": "Jaya Toner",
+        "usage_time": "night",
+        "applied": "true",
+        "skin_type": "dry"
+      }
+    ]
   }
   ```
 
-  ### 4. **Skincare Routine Applied**
+  ### 4. **Lihat Rekomendasi Produk**
 
-- **URL**: `/routine/:user_id`
-- **Metode**: `PUT`
-- **Response**:
-
-  ```json
-  {
-    "message": "Selamat datang di endpoint yang dilindungi!",
-    "user": {
-      "id": "id_user",
-      "iat": "time token valid",
-      "exp": "time token expired"
-    }
-  }
-  ```
-
-  ### 5. **Product Filtered by Skin Type, Usage Time, and Category**
-
-- **URL**: `/routine/:usage_time/:category?user_id=`
+- **URL**: `/routine/:user_id/:usage_time/:category`
 - **Metode**: `GET`
 - **Response**:
 
@@ -160,38 +137,75 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
     "products": [
       {
         "id_product": 2,
-        "name_product": "Jaya Toner",
+        "name_product": "Example Product",
         "skin_type": "dry",
         "category": "toner",
         "usage_time": "night",
-        "image_url": "ceritanya link",
-        "price": "20000.00",
-        "rating": "4.70",
+        "image_url": "link_image",
+        "price": 20000,
+        "rating": 4.7,
         "created_at": "2024-11-22T09:07:21.000Z"
       }
     ]
   }
   ```
 
-  ### 3. **Skincare Routine List**
+### 5. **Tambah Skincare Routine**
 
-- **URL**: `/routine/:user_id`
+- **URL**: `/routine/:user_id/:usage_time/:category`
 - **Metode**: `POST`
   **Body**:
   ```json
   {
-    "product_id": "1"
+    "product_id": 2
   }
   ```
 - **Response**:
+
   ```json
   {
     "message": "Routine added successfully",
-    "user": {
-      "id": "id_user",
-      "iat": "time token valid",
-      "exp": "time token expired"
+    "product": {
+      "id_product": 2,
+      "name_product": "Example Product",
+      "skin_type": "oily",
+      "category": "toner",
+      "usage_time": "night",
+      "image_url": "link_image",
+      "price": 20000,
+      "rating": 4.7,
+      "created_at": "2024-11-22T09:07:10.000Z"
     }
+  }
+  ```
+
+  ### 6. **Update Applied Skincare**
+
+- **URL**: `/routine/:user_id/:product_id`
+- **Metode**: `PATCH`
+  **Body**:
+  ```json
+  {
+    "applied": true
+  }
+  ```
+- **Response**:
+
+  ```json
+  {
+    "products": [
+      {
+        "id_product": 2,
+        "name_product": "Example Product",
+        "skin_type": "dry",
+        "category": "toner",
+        "usage_time": "night",
+        "image_url": "link_image",
+        "price": "20000.00",
+        "rating": "4.70",
+        "created_at": "2024-11-22T09:07:21.000Z"
+      }
+    ]
   }
   ```
 
