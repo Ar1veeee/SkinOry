@@ -1,0 +1,64 @@
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    skin_type ENUM('dry', 'oily', 'normal') DEFAULT NULL,    
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE auth (
+    user_id INT PRIMARY KEY,
+    active_token VARCHAR(255) NOT NULL UNIQUE,
+    refresh_token VARCHAR(255) NOT NULL UNIQUE,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE products (
+    id_product INT AUTO_INCREMENT PRIMARY KEY,
+    name_product VARCHAR(100) NOT NULL,
+    skin_type ENUM('dry', 'oily', 'normal') NOT NULL,
+    category ENUM('facewash', 'sunscreen', 'moisturizer', 'toner') NOT NULL,
+    usage_time ENUM('day', 'night', 'general') NOT NULL,
+    image_url VARCHAR(255),
+    price DECIMAL(10, 2),
+    rating DECIMAL(3, 2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE routines (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    product_id INT NOT NULL,
+    usage_time ENUM('daay', 'night', 'general') NOT NULL,
+    applied ENUM('false', 'true') DEFAULT 'false',
+    category ENUM('facewash', 'sunscreen', 'moisturizer', 'toner') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id_product) ON DELETE CASCADE
+);
+
+(Jadwal Skincare yang Dihapus)
+CREATE TABLE routines_history (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    product_id INT NOT NULL,
+    usage_time ENUM('pagi', 'malam') NOT NULL,
+    status ENUM('pending', 'completed') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP DEFAULT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+);
+
+(Rekomendasi Produk Terbaik)
+CREATE TABLE best_product (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL,
+    user_id INT NOT NULL,
+    rating DECIMAL(3, 1) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES products(id_product) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
