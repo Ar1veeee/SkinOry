@@ -193,18 +193,14 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
 
   ```json
   {
-    "products": [
-      {
-        "id_product": 2,
-        "name_product": "Example Product",
-        "skin_type": "dry",
-        "category": "toner",
-        "usage_time": "night",
-        "image_url": "link_image",
-        "price": "20000.00",
-        "rating": "4.70",
-        "created_at": "2024-11-22T09:07:21.000Z"
-      }
+    "routines": [
+        {
+            "id_product": 1,
+            "name_product": "Makmur Toner",
+            "usage_time": "night",
+            "applied": 1,
+            "skin_type": "oily"
+        },
     ]
   }
   ```
