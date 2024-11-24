@@ -1,10 +1,21 @@
-const { createUser, findUserByEmail, User } = require("../models/userModel");
+const {
+  createUser,
+  updateOldPassword,
+  findUserByEmail,
+  User,
+} = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 exports.register = async (req, res) => {
   const { username, email, password, skin_type } = req.body;
+
+  const passwordRegex = /^[A-Z].{7,}$/;
+  if (!passwordRegex.test(password)) {
+    return res.status(400).json({message: "Password must be at least 8 characters and begin with uppercase letters."});
+  }
+
   try {
     const existingUser = await findUserByEmail(email);
     if (existingUser)
@@ -37,10 +48,10 @@ exports.login = async (req, res) => {
     await User.createOrUpdateAuthToken(user.id, activeToken, refreshToken);
 
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,   //
-      secure: true,     
-      sameSite: "Strict", 
-      maxAge: 7 * 24 * 60 * 60 * 1000, 
+      httpOnly: true, //
+      secure: true,
+      sameSite: "Strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     res.json({
@@ -48,16 +59,47 @@ exports.login = async (req, res) => {
       loginResult: {
         userID: user.id,
         username: user.username,
-        active_token: activeToken 
-      } 
+        active_token: activeToken,
+      },
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
+exports.updatePassword = async (req, res) => {
+  const { user_id } = req.params;
+  const { newPassword } = req.body;
+
+  const passwordRegex = /^[A-Z].{7,}$/;
+  if (!passwordRegex.test(newPassword)) {
+    return res.status(400).json({message: "Password must be at least 8 characters and begin with uppercase letters."});    
+  }
+
+  try {
+    const result = await updateOldPassword(
+      user_id,
+      newPassword
+    );
+    if (result.affectedRows === 0) {
+      return res.status(400).json({
+        message: "Password needs to be filled in",
+      });
+    }
+    res.json({
+      message: "Update Password Success"
+    });
+  } catch (error) {
+    console.error("Error Updating Password:", error);
+    res.status(500).json({
+      message: "Error Updating Password",
+      error: error.message,
+    });
+  }
+};
+
 exports.refreshToken = async (req, res) => {
-  const refresh_token  = req.cookies.refreshToken;
+  const refresh_token = req.cookies.refreshToken;
 
   if (!refresh_token)
     return res.status(400).json({ message: "Refresh Token Required" });
@@ -76,18 +118,16 @@ exports.refreshToken = async (req, res) => {
     const activeToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    res.json({ 
+    res.json({
       message: "Token Updated",
       loginResult: {
         userID: user.id,
         username: user.username,
-        active_token: activeToken 
-      } 
+        active_token: activeToken,
+      },
     });
   } catch (error) {
     console.log(error);
-    res
-      .status(500)
-      .json({ message: "Invalid or Expired Refresh Token" });
+    res.status(500).json({ message: "Invalid or Expired Refresh Token" });
   }
 };

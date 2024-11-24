@@ -26,15 +26,24 @@ CREATE TABLE products (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE routines (
+CREATE TABLE day_routines (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     product_id INT NOT NULL,
-    usage_time ENUM('day', 'general') NOT NULL,
     applied TINYINT(1) DEFAULT 0,
     category ENUM('facewash', 'sunscreen', 'moisturizer', 'toner') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id_product) ON DELETE CASCADE
+);
+
+CREATE TABLE night_routines (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    product_id INT NOT NULL,
+    applied TINYINT(1) DEFAULT 0,
+    category ENUM('facewash', 'sunscreen', 'moisturizer', 'toner') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES products(id_product) ON DELETE CASCADE
 );

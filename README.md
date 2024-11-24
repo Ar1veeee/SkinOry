@@ -137,6 +137,15 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
+  **Error Format Password**:
+
+  ```json
+  {
+    "status": 400,
+    "message": "Password must be at least 8 characters and begin with uppercase letters."
+  }
+  ```
+
   **Error Server**:
 
   ```json
@@ -243,7 +252,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   ```json
   {
     "status": 400,
-    "message": "Product /name_product for usage time /usage_time already exists"
+    "message": "Product /name_product for skin type /skin_type already exists"
   }
   ```
 
@@ -257,9 +266,9 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
-### 4. **Skincare Routine List**
+### 4. **Skincare Day Routine List**
 
-- **URL**: `/routine/:user_id`
+- **URL**: `/routine/:user_id/day`
 - **Metode**: `GET`
 - **Response**:
 
@@ -269,7 +278,6 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
       {
         "id_product": 1,
         "name_product": "Jaya Toner",
-        "usage_time": "night",
         "applied": "true",
         "skin_type": "dry"
       }
@@ -296,9 +304,47 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
-### 5. **Product Recommendation List**
+### 5. **Skincare Night Routine List**
 
-- **URL**: `/routine/:user_id/:usage_time/:category`
+- **URL**: `/routine/:user_id/night`
+- **Metode**: `GET`
+- **Response**:
+
+  ```json
+  {
+    "routines": [
+      {
+        "id_product": 1,
+        "name_product": "Jaya Toner",
+        "applied": "true",
+        "skin_type": "dry"
+      }
+    ]
+  }
+  ```
+
+  **Error Bad Request**:
+
+  ```json
+  {
+    "status": 400,
+    "message": "User ID is required"
+  }
+  ```
+
+  **Error Internal Server**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "Error fetching user routines",
+    "error": "Error message"
+  }
+  ```
+
+### 6. **Product Recommendation List**
+
+- **URL**: `/routine/:user_id/:category`
 - **Metode**: `GET`
 - **Response**:
 
@@ -310,7 +356,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
         "name_product": "Jaya Toner",
         "skin_type": "dry",
         "category": "toner",
-        "usage_time": "night",
+        "usage_time": "general",
         "image_url": "ceritanya link",
         "price": "20000.00",
         "rating": "4.70",
@@ -321,7 +367,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
         "name_product": "Skintific Toner",
         "skin_type": "dry",
         "category": "toner",
-        "usage_time": "night",
+        "usage_time": "general",
         "image_url": "ceritanya link",
         "price": "20000.00",
         "rating": "4.70",
@@ -332,7 +378,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
         "name_product": "Alief Toner",
         "skin_type": "dry",
         "category": "toner",
-        "usage_time": "night",
+        "usage_time": "general",
         "image_url": "ceritanya link",
         "price": "20000.00",
         "rating": "4.70",
@@ -347,7 +393,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   ```json
   {
     "status": 400,
-    "message": "User ID, Usage Time, and Category are required"
+    "message": "User ID, and Category are required"
   }
   ```
 
@@ -361,27 +407,29 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
-### 6. **Add Skincare Routine**
+### 7. **Add Day Skincare Routine**
 
-- **URL**: `/routine/:user_id/:usage_time/:category`
+- **URL**: `/routine/:user_id/:category/day`
 - **Metode**: `POST`
--  **Body**:
+- **Body**:
+
   ```json
   {
     "product_id": 2
   }
   ```
+
 - **Response**:
 
   ```json
   {
-    "message": "Routine added successfully",
+    "message": "Day Routine added successfully",
     "product": {
       "id_product": 2,
       "name_product": "Example Product",
       "skin_type": "oily",
       "category": "toner",
-      "usage_time": "night",
+      "usage_time": "general",
       "image_url": "link_image",
       "price": 20000,
       "rating": 4.7,
@@ -395,7 +443,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   ```json
   {
     "status": 400,
-    "message": "User ID, Product ID, usage time, and category are required"
+    "message": "User ID, Product ID, and category are required"
   }
   ```
 
@@ -423,7 +471,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   ```json
   {
     "status": 400,
-    "message": "Product does not match the provided category 'facewash' and usage time 'morning'"
+    "message": "Product does not match the provided category 'facewash'"
   }
   ```
 
@@ -444,21 +492,34 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
-### 7. **Update Applied Skincare**
+### 8. **Add Night Skincare Routine**
 
-- **URL**: `/routine/:user_id/:product_id`
-- **Metode**: `PATCH`
+- **URL**: `/routine/:user_id/:category/night`
+- **Metode**: `POST`
 - **Body**:
+
   ```json
-  {
-    "applied": true
-  }
+    {
+      "product_id": 2
+    }
   ```
+
 - **Response**:
 
   ```json
   {
-    "message": "Applied status updated successfully"
+    "message": "Night Routine added successfully",
+    "product": {
+      "id_product": 2,
+      "name_product": "Example Product",
+      "skin_type": "oily",
+      "category": "toner",
+      "usage_time": "general",
+      "image_url": "link_image",
+      "price": 20000,
+      "rating": 4.7,
+      "created_at": "2024-11-22T09:07:10.000Z"
+    }
   }
   ```
 
@@ -467,21 +528,42 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   ```json
   {
     "status": 400,
-    "message": "User ID, Product ID, and Applied status are required"
+    "message": "User ID, Product ID, and category are required"
   }
   ```
 
   ```json
   {
     "status": 400,
-    "message": "Invalid value for applied. Allowed values: 'true', 'false'"
+    "message": "User not found"
   }
   ```
 
   ```json
   {
     "status": 400,
-    "message": "Routine not found for the given user ID and product ID"
+    "message": "Product not found"
+  }
+  ```
+
+  ```json
+  {
+    "status": 400,
+    "message": "Skin type mismatch: Product skin type is 'oily' but user's skin type is 'dry'"
+  }
+  ```
+
+  ```json
+  {
+    "status": 400,
+    "message": "Product does not match the provided category 'facewash'"
+  }
+  ```
+
+  ```json
+  {
+    "status": 400,
+    "message": "Routine already exists"
   }
   ```
 
@@ -490,15 +572,22 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   ```json
   {
     "status": 500,
-    "message": "Error updating applied status",
+    "message": "Error adding routine",
     "error": "Error message"
   }
   ```
 
-### 8. **Refresh Token**
+### 9. **Refresh Token**
 
 - **URL**: `/refresh`
 - **Metode**: `POST`
+- **Body**:
+
+  ```json
+    {
+      "newPassword": "Newpassword"
+    }
+  ```
 - **Response**:
 
   ```json
@@ -539,4 +628,47 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
+### 10. **Edit Password**
+
+- **URL**: `/auth/profile/:user`
+- **Metode**: `POST`
+- **Response**:
+
+  ```json
+  {
+    "message": "Token Updated"
+    "loginResult": {
+        "userID": "user.id",
+        "username": "user.username",
+        "active_token": "activeToken"
+      }
+  }
+  ```
+
+  **Error Not Inserted**:
+
+  ```json
+  {
+    "status": 400,
+    "message": "Password needs to be filled in"
+  }
+  ```
+
+  **Error Format Password**:
+
+  ```json
+  {
+    "status": 400,
+    "message": "Password must be at least 8 characters and begin with uppercase letters."
+  }
+  ```
+
+  **Error Expired Refresh Token**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "Error Updating Password"
+  }
+  ```
 ##

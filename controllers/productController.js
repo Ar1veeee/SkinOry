@@ -35,7 +35,7 @@ exports.addProduct = async (req, res) => {
       return res
         .status(400)
         .json({
-          message: `Product "${name_product}" for usage time "${usage_time}" already exists`
+          message: `Product "${name_product}" for usage time "${skin_type}" already exists`
         });
     }
     await Product.createProduct(
