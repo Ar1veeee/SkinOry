@@ -86,7 +86,7 @@ exports.updatePassword = async (req, res) => {
         message: "Password needs to be filled in",
       });
     }
-    res.json({
+    res.status(201).json({
       message: "Update Password Success"
     });
   } catch (error) {

@@ -499,9 +499,9 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
 - **Body**:
 
   ```json
-    {
-      "product_id": 2
-    }
+  {
+    "product_id": 2
+  }
   ```
 
 - **Response**:
@@ -584,10 +584,11 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
 - **Body**:
 
   ```json
-    {
-      "newPassword": "Newpassword"
-    }
+  {
+    "newPassword": "Newpassword"
+  }
   ```
+
 - **Response**:
 
   ```json
@@ -632,16 +633,21 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
 
 - **URL**: `/auth/profile/:user`
 - **Metode**: `POST`
+
+- **Body**:
+
+  ```json
+  {
+    "newPassword": "Cupangbb"
+  }
+  ```
+
 - **Response**:
 
   ```json
   {
-    "message": "Token Updated"
-    "loginResult": {
-        "userID": "user.id",
-        "username": "user.username",
-        "active_token": "activeToken"
-      }
+    "status": 201,
+    "message": "Update Password Success"
   }
   ```
 
@@ -671,4 +677,53 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
     "message": "Error Updating Password"
   }
   ```
+
+### 11. **Add Best Product**
+
+- **URL**: `/best`
+- **Metode**: `POST`
+
+- **Body**:
+
+  ```json
+  {
+    "best": {
+      "id": 1,
+      "name_product": "name product",
+      "category": "facewash",
+      "price": "product price",
+      "rating": "rating product",
+      "image_url": "image url product",
+      "store_url": "store url product",
+      "created_at": "2024-11-24T16:07:09.000Z"
+    }
+  }
+  ```
+
+- **Response**:
+
+  ```json
+  {
+    "message": "Product added successfully"
+  }
+  ```
+
+  **Error Not Inserted**:
+
+  ```json
+  {
+    "status": 400,
+    "message": "Name Product, Category, Price, Rating, Image URL, Store URL are required"
+  }
+  ```
+
+  **Error Expired Refresh Token**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "Error Updating Password"
+  }
+  ```
+
 ##

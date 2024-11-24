@@ -1,8 +1,9 @@
 const express = require('express');
 const authRoutes = require("./routes/authRoutes");
-const routineRoutes = require("./routes/routineRoutes")
-const prouctRoutes = require("./routes/productRoutes")
-const testRoutes = require("./routes/testRoutes")
+const routineRoutes = require("./routes/routineRoutes");
+const prouctRoutes = require("./routes/productRoutes");
+const testRoutes = require("./routes/testRoutes");
+const bestRoutes = require("./routes/bestRoutes");
 const morgan = require('morgan');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -20,6 +21,7 @@ app.use('/auth', authRoutes);
 app.use('/', routineRoutes);
 app.use('/', prouctRoutes);
 app.use('/', testRoutes);
+app.use('/', bestRoutes);
 
 
 app.use(errorHandler);
