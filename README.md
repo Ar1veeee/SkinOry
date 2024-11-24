@@ -92,7 +92,7 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   ```
 
 **Error Format Active Token**:
-  ## Authorization: Bearer <active_token>
+  #### Authorization: Bearer <active_token>
   ```json
   {
     "status": 401,
@@ -157,7 +157,7 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
     "message": "Login Successfully",
     "loginResult": {
         "userID": "user.id",
-        "username" "user.username",
+        "username": "user.username",
         "active_token": "activeToken" 
       } 
   }
@@ -496,7 +496,7 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
     "message": "Token Updated"
     "loginResult": {
         "userID": "user.id",
-        "username" "user.username",
+        "username": "user.username",
         "active_token": "activeToken" 
       } 
   }
