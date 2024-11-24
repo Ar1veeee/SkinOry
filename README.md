@@ -1,54 +1,57 @@
-# Backend API untuk SkinOry
+# Backend APIs for SkinOry
 
-Ini adalah aplikasi backend untuk proyek **SkinOry**, yang berfungsi sebagai API untuk melakukan autentikasi pengguna dan pengelolaan data terkait pengguna.
+This is the backend application for the **SkinOry** project, which serves as an API for performing user authentication and user-related data management.
 
-## Fitur
+## Features
 
-- **Registrasi Pengguna** - Pengguna baru dapat mendaftar dengan mengirimkan data yang diperlukan (misalnya nama, email, password).
-- **Login Pengguna** - Pengguna dapat login menggunakan kredensial yang valid untuk mendapatkan token autentikasi.
-- **Endpoint yang Dilindungi** - Menggunakan middleware untuk melindungi endpoint yang membutuhkan autentikasi token JWT.
-- **Adding Product** - Endpoint untuk menambah product (bukan untuk user).
-- **Pengelolaan Skincare Routine** - Endpoint untuk mengambil, mengedit, atau menghapus data pengguna.
+- **User Registration** - New users can register by submitting the required data (e.g. username, email, password).
+- **User Login** - Users can login using valid credentials to obtain an authentication token.
+- **Protected Endpoint** - Uses middleware to protect endpoints that require JWT token authentication.
+- **Adding Product** - Endpoint to add products (not for users).
+- **Skincare Routine Management** - Endpoint to retrieve, edit or delete user data.
 
-## Teknologi yang Digunakan
+## Technology in Use
 
-- **Node.js** - Runtime JavaScript untuk server.
-- **Express.js** - Framework untuk membangun aplikasi web dan API.
-- **JWT (JSON Web Token)** - Untuk autentikasi dan otorisasi.
-- **MySQL** - Database untuk menyimpan data pengguna.
-- **dotenv** - Untuk menyimpan variabel lingkungan yang sensitif (seperti kunci JWT, konfigurasi database).
-- **ESLint** - Linter untuk memastikan kualitas kode yang konsisten.
+- **Node.js** - JavaScript runtime for servers.
+- **Express.js** - Framework for building web applications and APIs.
+- **JWT (JSON Web Token)** - For authentication and authorization.
+- **MySQL2** - Database for storing user data.
+- **dotenv** - For storing sensitive environment variables (such as JWT keys, database configuration).
+- **ESLint** - Linter to ensure consistent code quality.
+- **cookie-parser** - to read, parse, and easily manage cookies sent by clients via HTTP headers.
+- **morgan** - Simplify the management of HTTP request logs (GET, POST, etc.) to the server.
+- **bcrypt** - Create a hash for the password so that it is not stored in plaintext in the database.
 
-## Instalasi
+## Installations
 
-### Prasyarat
+### Prerequisites
 
-Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di sistem Anda.
+Make sure you have **Node.js** and **npm** (Node Package Manager) installed on your system.
 
-### Langkah-langkah Instalasi
+### Installation Steps
 
-1. **Clone repositori:**
+1. **Clone repository:**
 
    ```bash
    git clone https://github.com/Ar1veeee/Backend_SkinOry_CC.git
    ```
 
-2. **Instal dependensi:**
-   Masuk ke dalam direktori proyek dan jalankan perintah berikut untuk menginstal semua dependensi yang dibutuhkan.
+2. **Install dependencies:**
+   Go into the project directory and run the following command to install all the required dependencies.
 
    ```bash
    cd Backend_SkinOry_CC
    npm install
    ```
 
-3. **Konfigurasi variabel lingkungan:**
-   Salin file `.env.example` menjadi `.env` dan sesuaikan nilai variabel lingkungan sesuai dengan konfigurasi Anda.
+3. **Environment variable configuration:**
+   Create a `.env` file and customize the environment variable values according to your configuration.
 
    ```bash
-   cp .env.example .env
+   nano .env
    ```
 
-   Di dalam `.env`, sesuaikan dengan pengaturan database Anda dan kunci JWT:
+   Inside `.env`, customize it with your database settings and JWT keys:
 
    ```ini
    DB_HOST=localhost
@@ -59,18 +62,18 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
    PORT=5000
    ```
 
-4. **Menjalankan aplikasi:**
-   Setelah instalasi selesai dan konfigurasi diatur, jalankan aplikasi dengan perintah berikut:
+4. **Running the application:**
+   Once the installation is complete and the configuration is set, run the application with the following command:
 
    ```bash
    npm start
    ```
 
-   Secara default, aplikasi akan berjalan di port 5000. Anda dapat mengaksesnya melalui `http://localhost:5000`.
+   By default, the application will run on port 5000. You can access it via `http://localhost:5000`.
 
 ## Endpoints
 
-## Autentikasi
+## Authentication
 
 ### Middleware
 **Error Active Token**:
@@ -100,7 +103,7 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   }
   ```
 
-### 1. **Registrasi Pengguna**
+### 1. **User Registration**
 
 - **URL**: `/auth/register`
 - **Metode**: `POST`
@@ -108,7 +111,7 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
 
   ```json
   {
-    "username": "nama_pengguna",
+    "username": "user_name",
     "email": "email@example.com",
     "password": "password123"
   }
