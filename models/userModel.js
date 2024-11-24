@@ -15,6 +15,20 @@ const createUser = async (username, email, password, skin_type) => {
   });
 };
 
+const updateOldPassword = async (user_id, password) => {
+  const newPasswordHash = await bcrypt.hash(password, 10);
+  return new Promise((resolve, reject) => {
+    db.query(
+      "UPDATE users SET password = ? WHERE id = ?",
+      [newPasswordHash, user_id],
+      (error, results) => {
+        if (error) reject(error);
+        resolve(results);
+      }
+    )
+  });
+};
+
 const findUserByEmail = (email) => {
   return new Promise((resolve, reject) => {
     db.query(
@@ -73,7 +87,6 @@ const User = {
     });
   },
 
-  // Add this method to find the auth record by user_id
   findAuthByUserId: (userId) => {
     return new Promise((resolve, reject) => {
       db.query(
@@ -81,11 +94,11 @@ const User = {
         [userId],
         (error, results) => {
           if (error) reject(error);
-          resolve(results[0] || null); // return the auth record or null if not found
+          resolve(results[0] || null);
         }
       );
     });
   },
 };
 
-module.exports = { createUser, findUserByEmail, User };
+module.exports = { createUser, findUserByEmail, updateOldPassword, User };

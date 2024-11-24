@@ -1,53 +1,57 @@
-# Backend API untuk SkinOry
+# Backend APIs for SkinOry
 
-Ini adalah aplikasi backend untuk proyek **SkinOry**, yang berfungsi sebagai API untuk melakukan autentikasi pengguna dan pengelolaan data terkait pengguna.
+This is the backend application for the **SkinOry** project, which serves as an API for performing user authentication and user-related data management.
 
-## Fitur
+## Features
 
-- **Registrasi Pengguna** - Pengguna baru dapat mendaftar dengan mengirimkan data yang diperlukan (misalnya nama, email, password).
-- **Login Pengguna** - Pengguna dapat login menggunakan kredensial yang valid untuk mendapatkan token autentikasi.
-- **Endpoint yang Dilindungi** - Menggunakan middleware untuk melindungi endpoint yang membutuhkan autentikasi token JWT.
-- **Pengelolaan Pengguna** - Endpoint untuk mengambil, mengedit, atau menghapus data pengguna.
+- **User Registration** - New users can register by submitting the required data (e.g. username, email, password).
+- **User Login** - Users can login using valid credentials to obtain an authentication token.
+- **Protected Endpoint** - Uses middleware to protect endpoints that require JWT token authentication.
+- **Adding Product** - Endpoint to add products (not for users).
+- **Skincare Routine Management** - Endpoint to retrieve, edit or delete user data.
 
-## Teknologi yang Digunakan
+## Technology in Use
 
-- **Node.js** - Runtime JavaScript untuk server.
-- **Express.js** - Framework untuk membangun aplikasi web dan API.
-- **JWT (JSON Web Token)** - Untuk autentikasi dan otorisasi.
-- **MySQL** - Database untuk menyimpan data pengguna.
-- **dotenv** - Untuk menyimpan variabel lingkungan yang sensitif (seperti kunci JWT, konfigurasi database).
-- **ESLint** - Linter untuk memastikan kualitas kode yang konsisten.
+- **Node.js** - JavaScript runtime for servers.
+- **Express.js** - Framework for building web applications and APIs.
+- **JWT (JSON Web Token)** - For authentication and authorization.
+- **MySQL2** - Database for storing user data.
+- **dotenv** - For storing sensitive environment variables (such as JWT keys, database configuration).
+- **ESLint** - Linter to ensure consistent code quality.
+- **cookie-parser** - to read, parse, and easily manage cookies sent by clients via HTTP headers.
+- **morgan** - Simplify the management of HTTP request logs (GET, POST, etc.) to the server.
+- **bcrypt** - Create a hash for the password so that it is not stored in plaintext in the database.
 
-## Instalasi
+## Installations
 
-### Prasyarat
+### Prerequisites
 
-Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di sistem Anda.
+Make sure you have **Node.js** and **npm** (Node Package Manager) installed on your system.
 
-### Langkah-langkah Instalasi
+### Installation Steps
 
-1. **Clone repositori:**
+1. **Clone repository:**
 
    ```bash
-   git clone https://github.com/Ar1veeee/Backend_SkinOry_APIs.git
+   git clone https://github.com/Ar1veeee/Backend_SkinOry_CC.git
    ```
 
-2. **Instal dependensi:**
-   Masuk ke dalam direktori proyek dan jalankan perintah berikut untuk menginstal semua dependensi yang dibutuhkan.
+2. **Install dependencies:**
+   Go into the project directory and run the following command to install all the required dependencies.
 
    ```bash
-   cd Backend_SkinOry_APIs
+   cd Backend_SkinOry_CC
    npm install
    ```
 
-3. **Konfigurasi variabel lingkungan:**
-   Salin file `.env.example` menjadi `.env` dan sesuaikan nilai variabel lingkungan sesuai dengan konfigurasi Anda.
+3. **Environment variable configuration:**
+   Create a `.env` file and customize the environment variable values according to your configuration.
 
    ```bash
-   cp .env.example .env
+   nano .env
    ```
 
-   Di dalam `.env`, sesuaikan dengan pengaturan database Anda dan kunci JWT:
+   Inside `.env`, customize it with your database settings and JWT keys:
 
    ```ini
    DB_HOST=localhost
@@ -55,32 +59,99 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
    DB_PASS=your_password
    DB_NAME=skinory
    JWT_SECRET=your_jwt_secret_key
-   PORT=3000
+   PORT=5000
    ```
 
-4. **Menjalankan aplikasi:**
-   Setelah instalasi selesai dan konfigurasi diatur, jalankan aplikasi dengan perintah berikut:
+4. **Running the application:**
+   Once the installation is complete and the configuration is set, run the application with the following command:
 
    ```bash
    npm start
    ```
 
-   Secara default, aplikasi akan berjalan di port 3000. Anda dapat mengaksesnya melalui `http://localhost:3000`.
+   By default, the application will run on port 5000. You can access it via `http://localhost:5000`.
 
 ## Endpoints
 
-## Autentikasi
+### Middleware
 
-### 1. **Registrasi Pengguna**
+**Error Active Token**:
+
+```json
+{
+  "status": 401,
+  "message": "Access Token Required"
+}
+```
+
+**Error Expired Token**:
+
+```json
+{
+  "status": 403,
+  "message": "Invalid or Expired Token"
+}
+```
+
+**Error Format Active Token**:
+
+#### Authorization: Bearer <active_token>
+
+```json
+{
+  "status": 401,
+  "message": "Invalid Token Format"
+}
+```
+
+### Authentication
+
+### 1. **User Registration**
 
 - **URL**: `/auth/register`
 - **Metode**: `POST`
 - **Body**:
+
   ```json
   {
-    "username": "nama_pengguna",
+    "username": "user_name",
     "email": "email@example.com",
     "password": "password123"
+  }
+  ```
+
+- **Response**:
+
+  ```json
+  {
+    "message": "Registrasi Successfully"
+  }
+  ```
+
+  **Error Email Used**:
+
+  ```json
+  {
+    "status": 400,
+    "message": "Email Already Exist"
+  }
+  ```
+
+  **Error Format Password**:
+
+  ```json
+  {
+    "status": 400,
+    "message": "Password must be at least 8 characters and begin with uppercase letters."
+  }
+  ```
+
+  **Error Server**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "An unexpected error occurred during registration."
   }
   ```
 
@@ -96,19 +167,108 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   }
   ```
 - **Response**:
+
   ```json
   {
-    "message": "Login berhasil",
-    "active_token": "expected_active_token",
-    "refresh_token": "expected_refresh_token"
+    "message": "Login Successfully",
+    "loginResult": {
+      "userID": "user.id",
+      "username": "user.username",
+      "active_token": "activeToken"
+    }
+  }
+  ```
+
+  ## **Cookies**
+
+  ### Set-Cookie: refresh_token=<your_refresh_token>; HttpOnly; Path=/; Secure
+
+  **Error User**:
+
+  ```json
+  {
+    "status": 404,
+    "message": "User Not Found"
+  }
+  ```
+
+  **Error Password**:
+
+  ```json
+  {
+    "status": 400,
+    "message": "Incorrect Password"
+  }
+  ```
+
+  **Error Server**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "An unexpected error occurred during registration."
   }
   ```
 
 ## Endpoint yang Dilindungi
 
-### 3. **Skincare Routine List**
+### 3. **Add Product**
 
-- **URL**: `/routine/:user_id`
+- **URL**: `/product`
+- **Metode**: `POST`
+- **Body**:
+
+  ```json
+  {
+    "name_product": "Jaya Toner",
+    "skin_type": "oily",
+    "category": "toner",
+    "usage_time": "night",
+    "image_url": "link_image",
+    "price": 20000,
+    "rating": 4.7
+  }
+  ```
+
+- **Response**:
+
+  ```json
+  {
+    "message": "Product Added Successfully"
+  }
+  ```
+
+  **Error Missing Required Fields**:
+
+  ```json
+  {
+    "status": 400,
+    "message": "All fields are required: name_product, skin_type, category, usage_time, image_url, price, rating"
+  }
+  ```
+
+  **Error Product Already Exists**:
+
+  ```json
+  {
+    "status": 400,
+    "message": "Product /name_product for skin type /skin_type already exists"
+  }
+  ```
+
+  **Error Missing Required Fields**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "Failed to add product",
+    "error": "Detailed error message from the server"
+  }
+  ```
+
+### 4. **Skincare Day Routine List**
+
+- **URL**: `/routine/:user_id/day`
 - **Metode**: `GET`
 - **Response**:
 
@@ -118,7 +278,6 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
       {
         "id_product": 1,
         "name_product": "Jaya Toner",
-        "usage_time": "night",
         "applied": "true",
         "skin_type": "dry"
       }
@@ -126,73 +285,151 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   }
   ```
 
-### 4. **Lihat Rekomendasi Produk**
+  **Error Bad Request**:
 
-- **URL**: `/routine/:user_id/:usage_time/:category`
+  ```json
+  {
+    "status": 400,
+    "message": "User ID is required"
+  }
+  ```
+
+  **Error Internal Server**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "Error fetching user routines",
+    "error": "Error message"
+  }
+  ```
+
+### 5. **Skincare Night Routine List**
+
+- **URL**: `/routine/:user_id/night`
+- **Metode**: `GET`
+- **Response**:
+
+  ```json
+  {
+    "routines": [
+      {
+        "id_product": 1,
+        "name_product": "Jaya Toner",
+        "applied": "true",
+        "skin_type": "dry"
+      }
+    ]
+  }
+  ```
+
+  **Error Bad Request**:
+
+  ```json
+  {
+    "status": 400,
+    "message": "User ID is required"
+  }
+  ```
+
+  **Error Internal Server**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "Error fetching user routines",
+    "error": "Error message"
+  }
+  ```
+
+### 6. **Product Recommendation List**
+
+- **URL**: `/routine/:user_id/:category`
 - **Metode**: `GET`
 - **Response**:
 
   ```json
   {
     "products": [
-        {
-            "id_product": 2,
-            "name_product": "Jaya Toner",
-            "skin_type": "dry",
-            "category": "toner",
-            "usage_time": "night",
-            "image_url": "ceritanya link",
-            "price": "20000.00",
-            "rating": "4.70",
-            "created_at": "2024-11-22T09:07:21.000Z"
-        },
-        {
-            "id_product": 3,
-            "name_product": "Skintific Toner",
-            "skin_type": "dry",
-            "category": "toner",
-            "usage_time": "night",
-            "image_url": "ceritanya link",
-            "price": "20000.00",
-            "rating": "4.70",
-            "created_at": "2024-11-23T10:23:57.000Z"
-        },
-        {
-            "id_product": 4,
-            "name_product": "Alief Toner",
-            "skin_type": "dry",
-            "category": "toner",
-            "usage_time": "night",
-            "image_url": "ceritanya link",
-            "price": "20000.00",
-            "rating": "4.70",
-            "created_at": "2024-11-23T10:24:10.000Z"
-        }
+      {
+        "id_product": 2,
+        "name_product": "Jaya Toner",
+        "skin_type": "dry",
+        "category": "toner",
+        "usage_time": "general",
+        "image_url": "ceritanya link",
+        "price": "20000.00",
+        "rating": "4.70",
+        "created_at": "2024-11-22T09:07:21.000Z"
+      },
+      {
+        "id_product": 3,
+        "name_product": "Skintific Toner",
+        "skin_type": "dry",
+        "category": "toner",
+        "usage_time": "general",
+        "image_url": "ceritanya link",
+        "price": "20000.00",
+        "rating": "4.70",
+        "created_at": "2024-11-23T10:23:57.000Z"
+      },
+      {
+        "id_product": 4,
+        "name_product": "Alief Toner",
+        "skin_type": "dry",
+        "category": "toner",
+        "usage_time": "general",
+        "image_url": "ceritanya link",
+        "price": "20000.00",
+        "rating": "4.70",
+        "created_at": "2024-11-23T10:24:10.000Z"
+      }
     ]
   }
   ```
 
-### 5. **Tambah Skincare Routine**
+  **Error Bad Request**:
 
-- **URL**: `/routine/:user_id/:usage_time/:category`
+  ```json
+  {
+    "status": 400,
+    "message": "User ID, and Category are required"
+  }
+  ```
+
+  **Error Internal Server**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "Error fetching recommended products",
+    "error": "Error message"
+  }
+  ```
+
+### 7. **Add Day Skincare Routine**
+
+- **URL**: `/routine/:user_id/:category/day`
 - **Metode**: `POST`
-  **Body**:
+- **Body**:
+
   ```json
   {
     "product_id": 2
   }
   ```
+
 - **Response**:
 
   ```json
   {
-    "message": "Routine added successfully",
+    "message": "Day Routine added successfully",
     "product": {
       "id_product": 2,
       "name_product": "Example Product",
       "skin_type": "oily",
       "category": "toner",
-      "usage_time": "night",
+      "usage_time": "general",
       "image_url": "link_image",
       "price": 20000,
       "rating": 4.7,
@@ -201,21 +438,291 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   }
   ```
 
-### 6. **Update Applied Skincare**
+  **Error Bad Request**:
 
-- **URL**: `/routine/:user_id/:product_id`
-- **Metode**: `PATCH`
-  **Body**:
   ```json
   {
-    "applied": true
+    "status": 400,
+    "message": "User ID, Product ID, and category are required"
   }
   ```
+
+  ```json
+  {
+    "status": 400,
+    "message": "User not found"
+  }
+  ```
+
+  ```json
+  {
+    "status": 400,
+    "message": "Product not found"
+  }
+  ```
+
+  ```json
+  {
+    "status": 400,
+    "message": "Skin type mismatch: Product skin type is 'oily' but user's skin type is 'dry'"
+  }
+  ```
+
+  ```json
+  {
+    "status": 400,
+    "message": "Product does not match the provided category 'facewash'"
+  }
+  ```
+
+  ```json
+  {
+    "status": 400,
+    "message": "Routine already exists"
+  }
+  ```
+
+  **Error Internal Server**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "Error adding routine",
+    "error": "Error message"
+  }
+  ```
+
+### 8. **Add Night Skincare Routine**
+
+- **URL**: `/routine/:user_id/:category/night`
+- **Metode**: `POST`
+- **Body**:
+
+  ```json
+  {
+    "product_id": 2
+  }
+  ```
+
 - **Response**:
 
   ```json
   {
-    "message": "Applied status updated successfully"
+    "message": "Night Routine added successfully",
+    "product": {
+      "id_product": 2,
+      "name_product": "Example Product",
+      "skin_type": "oily",
+      "category": "toner",
+      "usage_time": "general",
+      "image_url": "link_image",
+      "price": 20000,
+      "rating": 4.7,
+      "created_at": "2024-11-22T09:07:10.000Z"
+    }
+  }
+  ```
+
+  **Error Bad Request**:
+
+  ```json
+  {
+    "status": 400,
+    "message": "User ID, Product ID, and category are required"
+  }
+  ```
+
+  ```json
+  {
+    "status": 400,
+    "message": "User not found"
+  }
+  ```
+
+  ```json
+  {
+    "status": 400,
+    "message": "Product not found"
+  }
+  ```
+
+  ```json
+  {
+    "status": 400,
+    "message": "Skin type mismatch: Product skin type is 'oily' but user's skin type is 'dry'"
+  }
+  ```
+
+  ```json
+  {
+    "status": 400,
+    "message": "Product does not match the provided category 'facewash'"
+  }
+  ```
+
+  ```json
+  {
+    "status": 400,
+    "message": "Routine already exists"
+  }
+  ```
+
+  **Error Internal Server**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "Error adding routine",
+    "error": "Error message"
+  }
+  ```
+
+### 9. **Refresh Token**
+
+- **URL**: `/refresh`
+- **Metode**: `POST`
+- **Body**:
+
+  ```json
+  {
+    "newPassword": "Newpassword"
+  }
+  ```
+
+- **Response**:
+
+  ```json
+  {
+    "message": "Token Updated"
+    "loginResult": {
+        "userID": "user.id",
+        "username": "user.username",
+        "active_token": "activeToken"
+      }
+  }
+  ```
+
+  **Error User**:
+
+  ```json
+  {
+    "status": 404,
+    "message": "User Not Found"
+  }
+  ```
+
+  **Error Invalid Token**:
+
+  ```json
+  {
+    "status": 403,
+    "message": "Invalid Refresh Token'"
+  }
+  ```
+
+  **Error Expired Refresh Token**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "Invalid or Expired Refresh Token"
+  }
+  ```
+
+### 10. **Edit Password**
+
+- **URL**: `/auth/profile/:user`
+- **Metode**: `POST`
+
+- **Body**:
+
+  ```json
+  {
+    "newPassword": "Cupangbb"
+  }
+  ```
+
+- **Response**:
+
+  ```json
+  {
+    "status": 201,
+    "message": "Update Password Success"
+  }
+  ```
+
+  **Error Not Inserted**:
+
+  ```json
+  {
+    "status": 400,
+    "message": "Password needs to be filled in"
+  }
+  ```
+
+  **Error Format Password**:
+
+  ```json
+  {
+    "status": 400,
+    "message": "Password must be at least 8 characters and begin with uppercase letters."
+  }
+  ```
+
+  **Error Expired Refresh Token**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "Error Updating Password"
+  }
+  ```
+
+### 11. **Add Best Product**
+
+- **URL**: `/best`
+- **Metode**: `POST`
+
+- **Body**:
+
+  ```json
+  {
+    "best": {
+      "id": 1,
+      "name_product": "name product",
+      "category": "facewash",
+      "price": "product price",
+      "rating": "rating product",
+      "image_url": "image url product",
+      "store_url": "store url product",
+      "created_at": "2024-11-24T16:07:09.000Z"
+    }
+  }
+  ```
+
+- **Response**:
+
+  ```json
+  {
+    "message": "Product added successfully"
+  }
+  ```
+
+  **Error Not Inserted**:
+
+  ```json
+  {
+    "status": 400,
+    "message": "Name Product, Category, Price, Rating, Image URL, Store URL are required"
+  }
+  ```
+
+  **Error Expired Refresh Token**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "Error Updating Password"
   }
   ```
 
