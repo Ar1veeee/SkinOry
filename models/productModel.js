@@ -45,22 +45,6 @@ const Product = {
     });
   },  
 
-  getFilteredProducts: async (skin_type, usage_time) => {
-    const query = `
-      SELECT * 
-      FROM products 
-      WHERE skin_type = ? AND usage_time = ?
-    `;
-    return new Promise((resolve, reject) => {
-      db.query(query, [skin_type, usage_time], (error, rows) => {
-        if (error) {
-          reject(error);
-        }
-        resolve(rows);
-      });
-    });
-  },
-
   findProductById: async (product_id) => {
     const query = `
       SELECT * FROM products WHERE id_product = ?
