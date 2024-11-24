@@ -72,6 +72,34 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
 
 ## Autentikasi
 
+### Middleware
+**Error Active Token**:
+
+  ```json
+  {
+    "status": 401,
+    "message": "Access Token Required"
+  }
+  ```
+
+**Error Expired Token**:
+
+  ```json
+  {
+    "status": 403,
+    "message": "Invalid or Expired Token"
+  }
+  ```
+
+**Error Format Active Token**:
+  ## Authorization: Bearer <active_token>
+  ```json
+  {
+    "status": 401,
+    "message": "Invalid Token Format"
+  }
+  ```
+
 ### 1. **Registrasi Pengguna**
 
 - **URL**: `/auth/register`
@@ -124,14 +152,18 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   }
   ```
 - **Response**:
-
   ```json
   {
     "message": "Login Successfully",
-    "active_token": "expected_active_token",
-    "refresh_token": "expected_refresh_token"
+    "loginResult": {
+        "userID": "user.id",
+        "username" "user.username",
+        "active_token": "activeToken" 
+      } 
   }
   ```
+  ## **Cookies**
+  ## Set-Cookie: refresh_token=<your_refresh_token>; HttpOnly; Path=/; Secure
 
   **Error User**:
 
@@ -240,6 +272,7 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
 
   ```json
   {
+    "status": 400,
     "message": "User ID is required"
   }
   ```
@@ -248,6 +281,7 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
 
   ```json
   {
+    "status": 500,
     "message": "Error fetching user routines",
     "error": "Error message"
   }
@@ -303,6 +337,7 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
 
   ```json
   {
+    "status": 400,
     "message": "User ID, Usage Time, and Category are required"
   }
   ```
@@ -311,6 +346,7 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
 
   ```json
   {
+    "status": 500,
     "message": "Error fetching recommended products",
     "error": "Error message"
   }
@@ -349,36 +385,42 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
 
   ```json
   {
+    "status": 400,
     "message": "User ID, Product ID, usage time, and category are required"
   }
   ```
 
   ```json
   {
+    "status": 400,
     "message": "User not found"
   }
   ```
 
   ```json
   {
+    "status": 400,
     "message": "Product not found"
   }
   ```
 
   ```json
   {
+    "status": 400,
     "message": "Skin type mismatch: Product skin type is 'oily' but user's skin type is 'dry'"
   }
   ```
 
   ```json
   {
+    "status": 400,
     "message": "Product does not match the provided category 'facewash' and usage time 'morning'"
   }
   ```
 
   ```json
   {
+    "status": 400,
     "message": "Routine already exists"
   }
   ```
@@ -387,6 +429,7 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
 
   ```json
   {
+    "status": 500,
     "message": "Error adding routine",
     "error": "Error message"
   }
@@ -414,20 +457,21 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
 
   ```json
   {
+    "status": 400,
     "message": "User ID, Product ID, and Applied status are required"
   }
   ```
 
   ```json
   {
+    "status": 400,
     "message": "Invalid value for applied. Allowed values: 'true', 'false'"
   }
   ```
 
-  **Error Not Found**:
-
   ```json
   {
+    "status": 400,
     "message": "Routine not found for the given user ID and product ID"
   }
   ```
@@ -435,8 +479,52 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
 
   ```json
   {
+    "status": 500,
     "message": "Error updating applied status",
     "error": "Error message"
+  }
+  ```
+
+### 8. **Refresh Token**
+
+- **URL**: `/refresh`
+- **Metode**: `POST`
+- **Response**:
+
+  ```json
+  {
+    "message": "Token Updated"
+    "loginResult": {
+        "userID": "user.id",
+        "username" "user.username",
+        "active_token": "activeToken" 
+      } 
+  }
+  ```
+
+  **Error User**:
+
+  ```json
+  {
+    "status": 404,
+    "message": "User Not Found"
+  }
+  ```
+
+  **Error Invalid Token**:
+  ```json
+  {
+    "status": 403,
+    "message": "Invalid Refresh Token'"
+  }
+  ```
+
+  **Error Expired Refresh Token**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "Invalid or Expired Refresh Token"
   }
   ```
 ##
