@@ -152,7 +152,7 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   }
   ```
 
-### 4. **Lihat Rekomendasi Produk**
+### 5. **Lihat Rekomendasi Produk**
 
 - **URL**: `/routine/:user_id/:usage_time/:category`
 - **Metode**: `GET`
@@ -198,7 +198,7 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   }
   ```
 
-### 5. **Tambah Skincare Routine**
+### 6. **Tambah Skincare Routine**
 
 - **URL**: `/routine/:user_id/:usage_time/:category`
 - **Metode**: `POST`
@@ -227,7 +227,7 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   }
   ```
 
-### 6. **Update Applied Skincare**
+### 7. **Update Applied Skincare**
 
 - **URL**: `/routine/:user_id/:product_id`
 - **Metode**: `PATCH`
