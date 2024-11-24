@@ -76,32 +76,35 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
 ## Authentication
 
 ### Middleware
+
 **Error Active Token**:
 
-  ```json
-  {
-    "status": 401,
-    "message": "Access Token Required"
-  }
-  ```
+```json
+{
+  "status": 401,
+  "message": "Access Token Required"
+}
+```
 
 **Error Expired Token**:
 
-  ```json
-  {
-    "status": 403,
-    "message": "Invalid or Expired Token"
-  }
-  ```
+```json
+{
+  "status": 403,
+  "message": "Invalid or Expired Token"
+}
+```
 
 **Error Format Active Token**:
-  #### Authorization: Bearer <active_token>
-  ```json
-  {
-    "status": 401,
-    "message": "Invalid Token Format"
-  }
-  ```
+
+#### Authorization: Bearer <active_token>
+
+```json
+{
+  "status": 401,
+  "message": "Invalid Token Format"
+}
+```
 
 ### 1. **User Registration**
 
@@ -117,7 +120,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
-  **Response**:
+- **Response**:
 
   ```json
   {
@@ -155,18 +158,21 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 - **Response**:
+
   ```json
   {
     "message": "Login Successfully",
     "loginResult": {
-        "userID": "user.id",
-        "username": "user.username",
-        "active_token": "activeToken" 
-      } 
+      "userID": "user.id",
+      "username": "user.username",
+      "active_token": "activeToken"
+    }
   }
   ```
+
   ## **Cookies**
-  ## Set-Cookie: refresh_token=<your_refresh_token>; HttpOnly; Path=/; Secure
+
+  ### Set-Cookie: refresh_token=<your_refresh_token>; HttpOnly; Path=/; Secure
 
   **Error User**:
 
@@ -478,6 +484,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
     "message": "Routine not found for the given user ID and product ID"
   }
   ```
+
   **Error Internal Server**:
 
   ```json
@@ -500,8 +507,8 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
     "loginResult": {
         "userID": "user.id",
         "username": "user.username",
-        "active_token": "activeToken" 
-      } 
+        "active_token": "activeToken"
+      }
   }
   ```
 
@@ -515,6 +522,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   ```
 
   **Error Invalid Token**:
+
   ```json
   {
     "status": 403,
@@ -530,4 +538,5 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
     "message": "Invalid or Expired Refresh Token"
   }
   ```
+
 ##
