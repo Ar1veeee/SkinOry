@@ -1,11 +1,27 @@
 const db = require("../config/db");
 
 const Product = {
-  createProduct: async (name_product, skin_type, category, usage_time, image_url, price, rating) => {
+  createProduct: async (
+    name_product,
+    skin_type,
+    category,
+    usage_time,
+    image_url,
+    price,
+    rating
+  ) => {
     return new Promise((resolve, reject) => {
       db.query(
         "INSERT INTO products (name_product, skin_type, category, usage_time, image_url, price, rating) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [name_product, skin_type, category, usage_time, image_url, price, rating],
+        [
+          name_product,
+          skin_type,
+          category,
+          usage_time,
+          image_url,
+          price,
+          rating,
+        ],
         (error, result) => {
           if (error) reject(error);
           resolve(result);
@@ -14,18 +30,18 @@ const Product = {
     });
   },
 
-  findProductByName: (name_product) => {
+  findProductByNameAndUsageTime: (name_product, usage_time) => {
     return new Promise((resolve, reject) => {
-      db.query(
-        "SELECT * FROM products WHERE name_product = ?",
-        [name_product],
-        (error, results) => {
-          if (error) reject(error);
-          resolve(results[0]); 
+      const query = "SELECT * FROM products WHERE name_product = ? AND usage_time = ?";
+      db.query(query, [name_product, usage_time], (error, results) => {
+        if (error) {
+          console.error("Error executing query:", error); 
+          return reject(error);
         }
-      );
+        resolve(results[0]); 
+      });
     });
-  },
+  },  
 
   getFilteredProducts: async (skin_type, usage_time) => {
     const query = `

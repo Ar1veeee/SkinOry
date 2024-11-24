@@ -7,7 +7,7 @@ exports.getRecommendedProducts = async (req, res) => {
 
   if (!user_id || !usage_time || !category) {
     return res.status(400).json({
-      message: "User ID, usage time, and category are required",
+      message: "User ID, Usage Time, and Category are required",
     });
   }
 
@@ -32,7 +32,7 @@ exports.addRoutine = async (req, res) => {
   const { product_id } = req.body;
   if (!user_id || !product_id || !usage_time || !category) {
     return res.status(400).json({
-      message: "User ID, product ID, usage time, and category are required",
+      message: "User ID, Product ID, Usage Time, and Category are required",
     });
   }
 

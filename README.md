@@ -7,7 +7,8 @@ Ini adalah aplikasi backend untuk proyek **SkinOry**, yang berfungsi sebagai API
 - **Registrasi Pengguna** - Pengguna baru dapat mendaftar dengan mengirimkan data yang diperlukan (misalnya nama, email, password).
 - **Login Pengguna** - Pengguna dapat login menggunakan kredensial yang valid untuk mendapatkan token autentikasi.
 - **Endpoint yang Dilindungi** - Menggunakan middleware untuk melindungi endpoint yang membutuhkan autentikasi token JWT.
-- **Pengelolaan Pengguna** - Endpoint untuk mengambil, mengedit, atau menghapus data pengguna.
+- **Adding Product** - Endpoint untuk menambah product (bukan untuk user).
+- **Pengelolaan Skincare Routine** - Endpoint untuk mengambil, mengedit, atau menghapus data pengguna.
 
 ## Teknologi yang Digunakan
 
@@ -76,11 +77,38 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
 - **URL**: `/auth/register`
 - **Metode**: `POST`
 - **Body**:
+
   ```json
   {
     "username": "nama_pengguna",
     "email": "email@example.com",
     "password": "password123"
+  }
+  ```
+
+  **Response**:
+
+  ```json
+  {
+    "message": "Registrasi Successfully"
+  }
+  ```
+
+  **Error Email Used**:
+
+  ```json
+  {
+    "status": 400,
+    "message": "Email Already Exist"
+  }
+  ```
+
+  **Error Server**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "An unexpected error occurred during registration."
   }
   ```
 
@@ -96,13 +124,41 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   }
   ```
 - **Response**:
+
   ```json
   {
-    "message": "Login berhasil",
+    "message": "Login Successfully",
     "active_token": "expected_active_token",
     "refresh_token": "expected_refresh_token"
   }
   ```
+
+  **Error User**:
+
+  ```json
+  {
+    "status": 404,
+    "message": "User Not Found"
+  }
+  ```
+
+  **Error Password**:
+
+  ```json
+  {
+    "status": 400,
+    "message": "Incorrect Password"
+  }
+  ```
+
+**Error Server**:
+
+```json
+{
+  "status": 500,
+  "message": "An unexpected error occurred during registration."
+}
+```
 
 ## Endpoint yang Dilindungi
 
@@ -128,7 +184,35 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
 
   ```json
   {
-    "message": "Product added successfully"
+    "message": "Product Added Successfully"
+  }
+  ```
+
+  **Error Missing Required Fields**:
+
+  ```json
+  {
+    "status": 400,
+    "message": "All fields are required: name_product, skin_type, category, usage_time, image_url, price, rating"
+  }
+  ```
+
+  **Error Product Already Exists**:
+
+  ```json
+  {
+    "status": 400,
+    "message": `Product "${name_product}" for usage time "${usage_time}" already exists`
+  }
+  ```
+
+  **Error Missing Required Fields**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "Failed to add product",
+    "error": "Detailed error message from the server"
   }
   ```
 
@@ -152,7 +236,24 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   }
   ```
 
-### 5. **Lihat Rekomendasi Produk**
+  **Error Bad Request**:
+
+  ```json
+  {
+    "message": "User ID is required"
+  }
+  ```
+
+  **Error Internal Server**:
+
+  ```json
+  {
+    "message": "Error fetching user routines",
+    "error": "Error message"
+  }
+  ```
+
+### 5. **Product Recommendation List**
 
 - **URL**: `/routine/:user_id/:usage_time/:category`
 - **Metode**: `GET`
@@ -198,7 +299,24 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   }
   ```
 
-### 6. **Tambah Skincare Routine**
+  **Error Bad Request**:
+
+  ```json
+  {
+    "message": "User ID, Usage Time, and Category are required"
+  }
+  ```
+
+  **Error Internal Server**:
+
+  ```json
+  {
+    "message": "Error fetching recommended products",
+    "error": "Error message"
+  }
+  ```
+
+### 6. **Add Skincare Routine**
 
 - **URL**: `/routine/:user_id/:usage_time/:category`
 - **Metode**: `POST`
@@ -227,6 +345,53 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   }
   ```
 
+  **Error Bad Request**:
+
+  ```json
+  {
+    "message": "User ID, Product ID, usage time, and category are required"
+  }
+  ```
+
+  ```json
+  {
+    "message": "User not found"
+  }
+  ```
+
+  ```json
+  {
+    "message": "Product not found"
+  }
+  ```
+
+  ```json
+  {
+    "message": "Skin type mismatch: Product skin type is 'oily' but user's skin type is 'dry'"
+  }
+  ```
+
+  ```json
+  {
+    "message": "Product does not match the provided category 'facewash' and usage time 'morning'"
+  }
+  ```
+
+  ```json
+  {
+    "message": "Routine already exists"
+  }
+  ```
+
+  **Error Internal Server**:
+
+  ```json
+  {
+    "message": "Error adding routine",
+    "error": "Error message"
+  }
+  ```
+
 ### 7. **Update Applied Skincare**
 
 - **URL**: `/routine/:user_id/:product_id`
@@ -245,4 +410,33 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   }
   ```
 
+  **Error Bad Request**:
+
+  ```json
+  {
+    "message": "User ID, Product ID, and Applied status are required"
+  }
+  ```
+
+  ```json
+  {
+    "message": "Invalid value for applied. Allowed values: 'true', 'false'"
+  }
+  ```
+
+  **Error Not Found**:
+
+  ```json
+  {
+    "message": "Routine not found for the given user ID and product ID"
+  }
+  ```
+  **Error Internal Server**:
+
+  ```json
+  {
+    "message": "Error updating applied status",
+    "error": "Error message"
+  }
+  ```
 ##
