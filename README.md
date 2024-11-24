@@ -29,14 +29,14 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
 1. **Clone repositori:**
 
    ```bash
-   git clone https://github.com/Ar1veeee/Backend_SkinOry_APIs.git
+   git clone https://github.com/Ar1veeee/Backend_SkinOry_CC.git
    ```
 
 2. **Instal dependensi:**
    Masuk ke dalam direktori proyek dan jalankan perintah berikut untuk menginstal semua dependensi yang dibutuhkan.
 
    ```bash
-   cd Backend_SkinOry_APIs
+   cd Backend_SkinOry_CC
    npm install
    ```
 
