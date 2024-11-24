@@ -243,7 +243,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   ```json
   {
     "status": 400,
-    "message": `Product "${name_product}" for usage time "${usage_time}" already exists`
+    "message": "Product /name_product for usage time /usage_time already exists"
   }
   ```
 
