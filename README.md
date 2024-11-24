@@ -55,7 +55,7 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
    DB_PASS=your_password
    DB_NAME=skinory
    JWT_SECRET=your_jwt_secret_key
-   PORT=3000
+   PORT=5000
    ```
 
 4. **Menjalankan aplikasi:**
@@ -65,7 +65,7 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
    npm start
    ```
 
-   Secara default, aplikasi akan berjalan di port 3000. Anda dapat mengaksesnya melalui `http://localhost:3000`.
+   Secara default, aplikasi akan berjalan di port 5000. Anda dapat mengaksesnya melalui `http://localhost:5000`.
 
 ## Endpoints
 
