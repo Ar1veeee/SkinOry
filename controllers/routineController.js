@@ -1,3 +1,5 @@
+'use strict';
+
 const Routine = require("../models/routineModel");
 const Product = require("../models/productModel");
 const { User } = require("../models/userModel");

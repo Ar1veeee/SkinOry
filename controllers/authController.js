@@ -36,10 +36,20 @@ exports.login = async (req, res) => {
 
     await User.createOrUpdateAuthToken(user.id, activeToken, refreshToken);
 
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,   //
+      secure: true,     
+      sameSite: "Strict", 
+      maxAge: 7 * 24 * 60 * 60 * 1000, 
+    });
+
     res.json({
       message: "Login Successfully",
-      active_token: activeToken,
-      refresh_token: refreshToken,
+      loginResult: {
+        userID: user.id,
+        username: user.username,
+        active_token: activeToken 
+      } 
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -47,7 +57,7 @@ exports.login = async (req, res) => {
 };
 
 exports.refreshToken = async (req, res) => {
-  const { refresh_token } = req.body;
+  const refresh_token  = req.cookies.refreshToken;
 
   if (!refresh_token)
     return res.status(400).json({ message: "Refresh Token Required" });
@@ -66,7 +76,14 @@ exports.refreshToken = async (req, res) => {
     const activeToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    res.json({ message: "Token Updated", active_token: activeToken });
+    res.json({ 
+      message: "Token Updated",
+      loginResult: {
+        userID: user.id,
+        username: user.username,
+        active_token: activeToken 
+      } 
+    });
   } catch (error) {
     console.log(error);
     res
