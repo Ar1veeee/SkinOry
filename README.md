@@ -106,7 +106,33 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
 
 ## Endpoint yang Dilindungi
 
-### 3. **Skincare Routine List**
+### 3. **Add Product**
+
+- **URL**: `/product`
+- **Metode**: `POST`
+- **Body**:
+
+  ```json
+  {
+    "name_product": "Jaya Toner",
+    "skin_type": "oily",
+    "category": "toner",
+    "usage_time": "night",
+    "image_url": "link_image",
+    "price": 20000,
+    "rating": 4.7
+  }
+  ```
+
+- **Response**:
+
+  ```json
+  {
+    "message": "Product added successfully"
+  }
+  ```
+
+### 4. **Skincare Routine List**
 
 - **URL**: `/routine/:user_id`
 - **Metode**: `GET`
@@ -135,39 +161,39 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   ```json
   {
     "products": [
-        {
-            "id_product": 2,
-            "name_product": "Jaya Toner",
-            "skin_type": "dry",
-            "category": "toner",
-            "usage_time": "night",
-            "image_url": "ceritanya link",
-            "price": "20000.00",
-            "rating": "4.70",
-            "created_at": "2024-11-22T09:07:21.000Z"
-        },
-        {
-            "id_product": 3,
-            "name_product": "Skintific Toner",
-            "skin_type": "dry",
-            "category": "toner",
-            "usage_time": "night",
-            "image_url": "ceritanya link",
-            "price": "20000.00",
-            "rating": "4.70",
-            "created_at": "2024-11-23T10:23:57.000Z"
-        },
-        {
-            "id_product": 4,
-            "name_product": "Alief Toner",
-            "skin_type": "dry",
-            "category": "toner",
-            "usage_time": "night",
-            "image_url": "ceritanya link",
-            "price": "20000.00",
-            "rating": "4.70",
-            "created_at": "2024-11-23T10:24:10.000Z"
-        }
+      {
+        "id_product": 2,
+        "name_product": "Jaya Toner",
+        "skin_type": "dry",
+        "category": "toner",
+        "usage_time": "night",
+        "image_url": "ceritanya link",
+        "price": "20000.00",
+        "rating": "4.70",
+        "created_at": "2024-11-22T09:07:21.000Z"
+      },
+      {
+        "id_product": 3,
+        "name_product": "Skintific Toner",
+        "skin_type": "dry",
+        "category": "toner",
+        "usage_time": "night",
+        "image_url": "ceritanya link",
+        "price": "20000.00",
+        "rating": "4.70",
+        "created_at": "2024-11-23T10:23:57.000Z"
+      },
+      {
+        "id_product": 4,
+        "name_product": "Alief Toner",
+        "skin_type": "dry",
+        "category": "toner",
+        "usage_time": "night",
+        "image_url": "ceritanya link",
+        "price": "20000.00",
+        "rating": "4.70",
+        "created_at": "2024-11-23T10:24:10.000Z"
+      }
     ]
   }
   ```
