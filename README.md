@@ -365,7 +365,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
 
 - **URL**: `/routine/:user_id/:usage_time/:category`
 - **Metode**: `POST`
-  **Body**:
+-  **Body**:
   ```json
   {
     "product_id": 2
@@ -448,7 +448,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
 
 - **URL**: `/routine/:user_id/:product_id`
 - **Metode**: `PATCH`
-  **Body**:
+- **Body**:
   ```json
   {
     "applied": true
