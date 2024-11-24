@@ -151,14 +151,14 @@ Pastikan Anda telah menginstal **Node.js** dan **npm** (Node Package Manager) di
   }
   ```
 
-**Error Server**:
+  **Error Server**:
 
-```json
-{
-  "status": 500,
-  "message": "An unexpected error occurred during registration."
-}
-```
+  ```json
+  {
+    "status": 500,
+    "message": "An unexpected error occurred during registration."
+  }
+  ```
 
 ## Endpoint yang Dilindungi
 
