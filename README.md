@@ -73,8 +73,6 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
 
 ## Endpoints
 
-## Authentication
-
 ### Middleware
 
 **Error Active Token**:
@@ -105,6 +103,8 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   "message": "Invalid Token Format"
 }
 ```
+
+### Authentication
 
 ### 1. **User Registration**
 
