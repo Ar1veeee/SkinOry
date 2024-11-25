@@ -55,6 +55,18 @@ const User = {
     });
   },
 
+  showUserById: async (user_id) => {
+    const query = `
+        SELECT * FROM users WHERE id = ?
+      `;
+    return new Promise((resolve, reject) => {
+      db.query(query, [user_id], (error, results) => {
+        if (error) reject(error);
+        resolve(results.length > 0 ? results : null);
+      });
+    });
+  },
+
   createOrUpdateAuthToken: (userId, activeToken, refreshToken) => {
     return new Promise((resolve, reject) => {      
       db.query(

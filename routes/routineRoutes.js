@@ -10,17 +10,17 @@ const {
   getUserNightRoutines,
 } = require("../controllers/routineController");
 
-router.get("/routine/:user_id/day", verifyToken, getUserDayRoutines);
-router.get("/routine/:user_id/night", verifyToken, getUserNightRoutines);
+router.get("/:user_id/day", verifyToken, getUserDayRoutines);
+router.get("/:user_id/night", verifyToken, getUserNightRoutines);
 
 router.get(
-  "/routine/:user_id/:category",
+  "/:user_id/:category",
   verifyToken,
   getRecommendedProducts
 );
 
-router.post("/routine/:user_id/:category/day", verifyToken, DayRoutine);
-router.post("/routine/:user_id/:category/night", verifyToken, NightRoutine);
+router.post("/:user_id/:category/day", verifyToken, DayRoutine);
+router.post("/:user_id/:category/night", verifyToken, NightRoutine);
 
 router.patch("/routine/:user_id/:product_id", verifyToken, updateAppliedStatus);
 

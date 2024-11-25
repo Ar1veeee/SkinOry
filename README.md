@@ -212,7 +212,42 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
 
 ## Endpoint yang Dilindungi
 
-### 3. **Add Product**
+### 3. **Profile**
+
+- **URL**: `/profile/:user_id`
+- **Metode**: `GET`
+- **Response**:
+
+  ```json
+  {
+    "Profile": {
+      "userID": 1,
+      "username": "username",
+      "skin_type": "user skin_type",
+      "email": "user email"
+    }
+  }
+  ```
+
+  **Error Missing Required Fields**:
+
+  ```json
+  {
+    "status": 404,
+    "message": "User Not Found"
+  }
+  ```
+
+  **Error Show Profile**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "Error Show Profile",
+    "error": "Detailed error message from the server"
+  }
+  ```
+### 4. **Add Product**
 
 - **URL**: `/product`
 - **Metode**: `POST`
@@ -277,7 +312,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
-### 4. **Skincare Day Routine List**
+### 5. **Skincare Day Routine List**
 
 - **URL**: `/routine/:user_id/day`
 - **Metode**: `GET`
@@ -315,7 +350,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
-### 5. **Skincare Night Routine List**
+### 6. **Skincare Night Routine List**
 
 - **URL**: `/routine/:user_id/night`
 - **Metode**: `GET`
@@ -353,7 +388,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
-### 6. **Product Recommendation List**
+### 7. **Product Recommendation List**
 
 - **URL**: `/routine/:user_id/:category`
 - **Metode**: `GET`
@@ -418,7 +453,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
-### 7. **Add Day Skincare Routine**
+### 8. **Add Day Skincare Routine**
 
 - **URL**: `/routine/:user_id/:category/day`
 - **Metode**: `POST`
@@ -503,7 +538,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
-### 8. **Add Night Skincare Routine**
+### 9. **Add Night Skincare Routine**
 
 - **URL**: `/routine/:user_id/:category/night`
 - **Metode**: `POST`
@@ -588,7 +623,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
-### 9. **Refresh Token**
+### 10. **Refresh Token**
 
 - **URL**: `/refresh`
 - **Metode**: `POST`
@@ -640,9 +675,9 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
-### 10. **Edit Password**
+### 11. **Edit Password**
 
-- **URL**: `/auth/profile/:user`
+- **URL**: `/profile/:user`
 - **Metode**: `POST`
 
 - **Body**:
@@ -689,7 +724,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
-### 11. **Add Best Product**
+### 12. **Add Best Product**
 
 - **URL**: `/best`
 - **Metode**: `POST`

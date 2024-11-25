@@ -1,6 +1,5 @@
 const {
   createUser,
-  updateOldPassword,
   findUserByEmail,
   User,
 } = require("../models/userModel");
@@ -67,36 +66,6 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.updatePassword = async (req, res) => {
-  const { user_id } = req.params;
-  const { newPassword } = req.body;
-
-  const passwordRegex = /^[A-Z].{7,}$/;
-  if (!passwordRegex.test(newPassword)) {
-    return res.status(400).json({message: "Password must be at least 8 characters and begin with uppercase letters."});    
-  }
-
-  try {
-    const result = await updateOldPassword(
-      user_id,
-      newPassword
-    );
-    if (result.affectedRows === 0) {
-      return res.status(400).json({
-        message: "Password needs to be filled in",
-      });
-    }
-    res.status(201).json({
-      message: "Update Password Success"
-    });
-  } catch (error) {
-    console.error("Error Updating Password:", error);
-    res.status(500).json({
-      message: "Error Updating Password",
-      error: error.message,
-    });
-  }
-};
 
 exports.refreshToken = async (req, res) => {
   const refresh_token = req.cookies.refreshToken;
