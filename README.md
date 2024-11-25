@@ -219,15 +219,26 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
 - **Body**:
 
   ```json
-  {
-    "name_product": "Jaya Toner",
-    "skin_type": "oily",
-    "category": "toner",
-    "usage_time": "night",
-    "image_url": "link_image",
-    "price": 20000,
-    "rating": 4.7
-  }
+  [
+    {
+      "name_product": "Jaya Toner",
+      "skin_type": "oily",
+      "category": "toner",
+      "usage_time": "night",
+      "image_url": "link image",
+      "price": 20000,
+      "rating": 4.7
+    },
+    {
+      "name_product": "Makmur Toner",
+      "skin_type": "oily",
+      "category": "toner",
+      "usage_time": "night",
+      "image_url": "link image",
+      "price": 20000,
+      "rating": 4.7
+    }
+  ]
   ```
 
 - **Response**:
@@ -357,7 +368,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
         "skin_type": "dry",
         "category": "toner",
         "usage_time": "general",
-        "image_url": "ceritanya link",
+        "image_url": "link image",
         "price": "20000.00",
         "rating": "4.70",
         "created_at": "2024-11-22T09:07:21.000Z"
@@ -368,7 +379,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
         "skin_type": "dry",
         "category": "toner",
         "usage_time": "general",
-        "image_url": "ceritanya link",
+        "image_url": "link image",
         "price": "20000.00",
         "rating": "4.70",
         "created_at": "2024-11-23T10:23:57.000Z"
@@ -379,7 +390,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
         "skin_type": "dry",
         "category": "toner",
         "usage_time": "general",
-        "image_url": "ceritanya link",
+        "image_url": "link image",
         "price": "20000.00",
         "rating": "4.70",
         "created_at": "2024-11-23T10:24:10.000Z"
@@ -430,7 +441,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
       "skin_type": "oily",
       "category": "toner",
       "usage_time": "general",
-      "image_url": "link_image",
+      "image_url": "link image",
       "price": 20000,
       "rating": 4.7,
       "created_at": "2024-11-22T09:07:10.000Z"
@@ -515,7 +526,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
       "skin_type": "oily",
       "category": "toner",
       "usage_time": "general",
-      "image_url": "link_image",
+      "image_url": "link image",
       "price": 20000,
       "rating": 4.7,
       "created_at": "2024-11-22T09:07:10.000Z"
@@ -686,18 +697,26 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
 - **Body**:
 
   ```json
-  {
-    "best": {
-      "id": 1,
-      "name_product": "name product",
+  [
+    {
+      "name_product": "Facewash a",
+      "skin_type": "dry",
       "category": "facewash",
-      "price": "product price",
-      "rating": "rating product",
-      "image_url": "image url product",
-      "store_url": "store url product",
-      "created_at": "2024-11-24T16:07:09.000Z"
+      "image_url": "link image",
+      "store_url": "link store",
+      "price": 20000.0,
+      "rating": 4.7
+    },
+    {
+      "name_product": "Facewash b",
+      "skin_type": "dry",
+      "category": "facewash",
+      "image_url": "link image",
+      "store_url": "link store",
+      "price": 20000.0,
+      "rating": 4.7
     }
-  }
+  ]
   ```
 
 - **Response**:
