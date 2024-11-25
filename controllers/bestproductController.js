@@ -1,32 +1,55 @@
 "use strict";
 
-const { Best } = require("../models/bestproductModel");
+const Best = require("../models/bestproductModel");
 
 exports.BestProduct = async (req, res) => {
-  const { name_product, category, price, rating, image_url, store_url } =
-    req.body;
-  if (
-    !name_product ||
-    !category ||
-    !price ||
-    !rating ||
-    !image_url ||
-    !store_url
-  ) {
+  const bests = req.body;
+
+  if (!Array.isArray(bests) || bests.length === 0) {
     return res.status(400).json({
-      message:
-        "Name Product, Category, Price, Rating, Image URL, Store URL are required",
+      message: "Request body must be an array of products",
     });
   }
 
-  try {
-    await Best.addProduct(name_product, category, price, rating, image_url, store_url);
-    res.json({ message: "Product added successfully" });
+ for (const best of bests) {
+    const { name_product, skin_type, category, price, rating, image_url, store_url } = best;
+    if (
+      !name_product ||
+      !skin_type ||
+      !category ||
+      !price ||
+      !rating ||
+      !image_url ||
+      !store_url 
+    ) {
+      return res.status(400).json({
+        message: "All fields are required: name_product, skin_type, category, price, rating, image_url, store_url",
+      });
+    }
+
+    try {
+      const existingProduct = await Best.findProductByNameAndSkinType(
+        name_product, 
+        skin_type
+      );
+      if (existingProduct) {
+        return res.status(400).json({
+          message: `Product "${name_product}" for usage time "${skin_type}" already exists`,
+        });
+      }
+    } catch (error) {
+      console.error("Error checking for existing product:", error);
+      return res.status(500).json({ message: "Failed to check existing products" });
+    }
+  }
+   try {
+    await Best.addMultipleProducts(bests);
+    res.status(201).json({ message: "Products added successfully" });
   } catch (error) {
-    console.error("Error Added product:", error);
-    return res.status(500).json({
-      message: "Error adding product",
+    console.error("Error adding products:", error);
+    res.status(500).json({
+      message: "Failed to add products",
       error: error.message,
     });
-  }
+  }   
 };

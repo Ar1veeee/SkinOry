@@ -1,0 +1,58 @@
+app.delete('/api/routines/:routineId', async (req, res) => {
+    const { routineId } = req.params;
+    try {
+        // 1. Fetch the routine data
+        const routine = await db.query('SELECT * FROM day_routines WHERE id = ?', [routineId]);
+        if (!routine) {
+            return res.status(404).json({ success: false, message: 'Routine not found' });
+        }
+
+        // 2. Insert the data into history
+        await db.query(
+            'INSERT INTO routines_history (user_id, product_id, usage_time, status) VALUES (?, ?, ?, ?)',
+            [routine.user_id, routine.product_id, 'pagi', 'deleted']
+        );
+
+        // 3. Delete the routine
+        await db.query('DELETE FROM day_routines WHERE id = ?', [routineId]);
+
+        res.json({ success: true, message: 'Routine deleted and moved to history' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+app.delete('/api/routines/:routineId', async (req, res) => {
+    const { routineId } = req.params;
+
+    try {
+        // Ambil data dari routines
+        const [routine] = await db.query('SELECT * FROM day_routines WHERE id = ?', [routineId]);
+        if (!routine) {
+            return res.status(404).json({ success: false, message: 'Routine not found' });
+        }
+
+        // Pindahkan data ke history
+        await db.query(
+            'INSERT INTO routines_history (user_id, product_id, usage_time, status, created_at, reason_for_deletion) VALUES (?, ?, ?, ?, ?, ?)',
+            [
+                routine.user_id,
+                routine.product_id,
+                'pagi', // atau 'malam' tergantung konteks
+                'deleted',
+                routine.created_at, // Gunakan created_at dari routines
+                'Routine deleted by user'
+            ]
+        );
+
+        // Hapus data dari routines
+        await db.query('DELETE FROM day_routines WHERE id = ?', [routineId]);
+
+        res.json({ success: true, message: 'Routine moved to history and deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+

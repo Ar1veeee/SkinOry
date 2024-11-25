@@ -3,39 +3,34 @@
 const db = require("../config/db");
 
 const Product = {
-  createProduct: async (
-    name_product,
-    skin_type,
-    category,
-    usage_time,
-    image_url,
-    price,
-    rating
-  ) => {
+  createMultipleProducts: async (products) => {
     return new Promise((resolve, reject) => {
-      db.query(
-        "INSERT INTO products (name_product, skin_type, category, usage_time, image_url, price, rating) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [
-          name_product,
-          skin_type,
-          category,
-          usage_time,
-          image_url,
-          price,
-          rating,
-        ],
-        (error, result) => {
-          if (error) reject(error);
-          resolve(result);
-        }
-      );
+      const values = products.map((product) => [
+        product.name_product,
+        product.skin_type,
+        product.category,
+        product.usage_time,
+        product.image_url,
+        product.price,
+        product.rating,
+      ]);
+
+      const query = `
+        INSERT INTO products (name_product, skin_type, category, usage_time, image_url, price, rating)
+        VALUES ?
+      `;
+
+      db.query(query, [values], (error, result) => {
+        if (error) reject(error);
+        resolve(result);
+      });
     });
   },
 
-  findProductByNameAndUsageTime: (name_product, usage_time) => {
+  findProductByNameAndSkinType: (name_product, skin_type) => {
     return new Promise((resolve, reject) => {
-      const query = "SELECT * FROM products WHERE name_product = ? AND usage_time = ?";
-      db.query(query, [name_product, usage_time], (error, results) => {
+      const query = "SELECT * FROM products WHERE name_product = ? AND skin_type = ?";
+      db.query(query, [name_product, skin_type], (error, results) => {
         if (error) {
           console.error("Error executing query:", error); 
           return reject(error);
