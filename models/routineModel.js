@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const db = require("../config/db");
 
@@ -9,16 +9,12 @@ const Routine = {
       VALUES (?, ?, ?)
     `;
     return new Promise((resolve, reject) => {
-      db.query(
-        query,
-        [user_id, product_id, category],
-        (error, result) => {
-          if (error) {
-            reject(error);
-          }
-          resolve(result);
+      db.query(query, [user_id, product_id, category], (error, result) => {
+        if (error) {
+          reject(error);
         }
-      );
+        resolve(result);
+      });
     });
   },
 
@@ -28,22 +24,18 @@ const Routine = {
       VALUES (?, ?, ?)
     `;
     return new Promise((resolve, reject) => {
-      db.query(
-        query,
-        [user_id, product_id, category],
-        (error, result) => {
-          if (error) {
-            reject(error);
-          }
-          resolve(result);
+      db.query(query, [user_id, product_id, category], (error, result) => {
+        if (error) {
+          reject(error);
         }
-      );
+        resolve(result);
+      });
     });
   },
 
   getDayRoutinesByUserId: async (user_id) => {
     const query = `
-      SELECT p.id_product, p.name_product, r.applied, p.skin_type
+      SELECT p.id_product, p.name_product, p.skin_type, p.category
       FROM day_routines r
       JOIN products p ON r.product_id = p.id_product
       WHERE r.user_id = ?
@@ -58,12 +50,40 @@ const Routine = {
     });
   },
 
+  deleteDayRoutinesByUserId: async (user_id) => {
+    const query = `
+      DELETE FROM day_routines WHERE user_id = ?
+    `;
+    return new Promise((resolve, reject) => {
+      db.query(query, [user_id], (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results);
+      });
+    });
+  },
+
   getNightRoutinesByUserId: async (user_id) => {
     const query = `
-      SELECT p.id_product, p.name_product, r.applied, p.skin_type
+      SELECT p.id_product, p.name_product, p.skin_type, p.category
       FROM night_routines r
       JOIN products p ON r.product_id = p.id_product
       WHERE r.user_id = ?
+    `;
+    return new Promise((resolve, reject) => {
+      db.query(query, [user_id], (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results);
+      });
+    });
+  },
+
+  deleteNightRoutinesByUserId: async (user_id) => {
+    const query = `
+      DELETE FROM night_routines WHERE user_id = ?
     `;
     return new Promise((resolve, reject) => {
       db.query(query, [user_id], (error, results) => {
@@ -117,29 +137,6 @@ const Routine = {
         }
         resolve(results);
       });
-    });
-  },
-
-  updateAppliedStatus: async (user_id, product_id, applied) => {
-    const query = `
-      UPDATE routines 
-      SET applied = ? 
-      WHERE user_id = ? AND product_id = ?
-    `;
-    return new Promise((resolve, reject) => {
-      db.query(
-        query,
-        [applied ? 1 : 0, user_id, product_id],
-        (error, result) => {
-          if (error) {
-            reject(error);
-          }
-          if (result.affectedRows === 0) {
-            reject(new Error("No matching routine found to update"));
-          }
-          resolve(result);
-        }
-      );
     });
   },
 };

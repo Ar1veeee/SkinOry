@@ -25,8 +25,7 @@ exports.updatePassword = async (req, res) => {
   } catch (error) {
     console.error("Error Updating Password:", error);
     res.status(500).json({
-      message: "Error Updating Password",
-      error: error.message,
+      message: "Error Updating Password",      
     });
   }
 };
@@ -49,8 +48,7 @@ exports.Profile = async (req, res) => {
   } catch (error) {
     console.error("Error Show Profile", error);
     res.status(500).json({
-      message: "Error Show Profile",
-      error: error.message,
+      message: "Error Show Profile",      
     });
   }
 };

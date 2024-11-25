@@ -49,7 +49,6 @@ exports.addProduct = async (req, res) => {
     console.error("Error adding products:", error);
     res.status(500).json({
       message: "Failed to add products",
-      error: error.message,
     });
   }   
 };

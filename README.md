@@ -324,8 +324,8 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
       {
         "id_product": 1,
         "name_product": "Jaya Toner",
-        "applied": "true",
-        "skin_type": "dry"
+        "skin_type": "dry",
+        "category": "toner"
       }
     ]
   }
@@ -362,8 +362,8 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
       {
         "id_product": 1,
         "name_product": "Jaya Toner",
-        "applied": "true",
-        "skin_type": "dry"
+        "skin_type": "dry",
+        "category": "toner"
       }
     ]
   }
@@ -387,8 +387,68 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
     "error": "Error message"
   }
   ```
+### 7. **Skincare Day Routine Delete**
 
-### 7. **Product Recommendation List**
+- **URL**: `/routine/:user_id/day`
+- **Metode**: `DELETE`
+- **Response**:
+
+  ```json
+  {
+    "status": 202,
+    "message": "Day Routine Deleted Successfully"
+  }
+  ```
+
+  **Error Bad Request**:
+
+  ```json
+  {
+    "status": 404,
+    "message": "User Not Found"
+  }
+  ```
+
+  **Error Internal Server**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "Error Deleting Dat Routines",    
+  }
+  ```
+### 8. **Skincare Night Routine Delete**
+
+- **URL**: `/routine/:user_id/night`
+- **Metode**: `DELETE`
+- **Response**:
+
+  ```json
+  {
+    "status": 202,
+    "message": "Night Routine Deleted Successfully"
+  }
+  ```
+
+  **Error Bad Request**:
+
+  ```json
+  {
+    "status": 404,
+    "message": "User Not Found"
+  }
+  ```
+
+  **Error Internal Server**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "Error Deleting Dat Routines",    
+  }
+  ```
+
+### 9. **Product Recommendation List**
 
 - **URL**: `/routine/:user_id/:category`
 - **Metode**: `GET`
@@ -453,7 +513,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
-### 8. **Add Day Skincare Routine**
+### 10. **Add Day Skincare Routine**
 
 - **URL**: `/routine/:user_id/:category/day`
 - **Metode**: `POST`
@@ -538,7 +598,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
-### 9. **Add Night Skincare Routine**
+### 11. **Add Night Skincare Routine**
 
 - **URL**: `/routine/:user_id/:category/night`
 - **Metode**: `POST`
@@ -623,7 +683,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
-### 10. **Refresh Token**
+### 12. **Refresh Token**
 
 - **URL**: `/refresh`
 - **Metode**: `POST`
@@ -675,7 +735,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
-### 11. **Edit Password**
+### 13. **Edit Password**
 
 - **URL**: `/profile/:user`
 - **Metode**: `POST`
@@ -724,7 +784,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
   }
   ```
 
-### 12. **Add Best Product**
+### 14. **Add Best Product**
 
 - **URL**: `/best`
 - **Metode**: `POST`
