@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const db = require("../config/db");
 
@@ -29,16 +29,17 @@ const Product = {
 
   findProductByNameAndSkinType: (name_product, skin_type) => {
     return new Promise((resolve, reject) => {
-      const query = "SELECT * FROM products WHERE name_product = ? AND skin_type = ?";
+      const query =
+        "SELECT * FROM products WHERE name_product = ? AND skin_type = ?";
       db.query(query, [name_product, skin_type], (error, results) => {
         if (error) {
-          console.error("Error executing query:", error); 
+          console.error("Error executing query:", error);
           return reject(error);
         }
-        resolve(results[0]); 
+        resolve(results[0]);
       });
     });
-  },  
+  },
 
   findProductById: async (product_id) => {
     const query = `

@@ -46,18 +46,7 @@ CREATE TABLE night_routines (
     FOREIGN KEY (product_id) REFERENCES products(id_product) ON DELETE CASCADE
 );
 
-(Jadwal Skincare yang Dihapus)
-CREATE TABLE routines_history (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    product_id INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP DEFAULT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
-);
 
-(Rekomendasi Produk Terbaik)
 CREATE TABLE best_products (
     id INT AUTO_INCREMENT PRIMARY KEY,          
     name_product VARCHAR(255) NOT NULL,

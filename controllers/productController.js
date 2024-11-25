@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const Product = require("../models/productModel");
 
@@ -11,8 +11,16 @@ exports.addProduct = async (req, res) => {
     });
   }
 
- for (const product of products) {
-    const { name_product, skin_type, category, usage_time, image_url, price, rating } = product;
+  for (const product of products) {
+    const {
+      name_product,
+      skin_type,
+      category,
+      usage_time,
+      image_url,
+      price,
+      rating,
+    } = product;
     if (
       !name_product ||
       !skin_type ||
@@ -23,13 +31,14 @@ exports.addProduct = async (req, res) => {
       !rating
     ) {
       return res.status(400).json({
-        message: "All fields are required: name_product, skin_type, category, usage_time, image_url, price, rating",
+        message:
+          "All fields are required: name_product, skin_type, category, usage_time, image_url, price, rating",
       });
     }
 
     try {
       const existingProduct = await Product.findProductByNameAndSkinType(
-        name_product, 
+        name_product,
         usage_time
       );
       if (existingProduct) {
@@ -39,10 +48,12 @@ exports.addProduct = async (req, res) => {
       }
     } catch (error) {
       console.error("Error checking for existing product:", error);
-      return res.status(500).json({ message: "Failed to check existing products" });
+      return res
+        .status(500)
+        .json({ message: "Failed to check existing products" });
     }
   }
-   try {
+  try {
     await Product.createMultipleProducts(products);
     res.status(201).json({ message: "Products added successfully" });
   } catch (error) {
@@ -50,5 +61,5 @@ exports.addProduct = async (req, res) => {
     res.status(500).json({
       message: "Failed to add products",
     });
-  }   
+  }
 };

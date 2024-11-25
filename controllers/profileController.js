@@ -1,3 +1,5 @@
+"use strict";
+
 const { updateOldPassword, User } = require("../models/userModel");
 
 exports.updatePassword = async (req, res) => {
@@ -25,7 +27,7 @@ exports.updatePassword = async (req, res) => {
   } catch (error) {
     console.error("Error Updating Password:", error);
     res.status(500).json({
-      message: "Error Updating Password",      
+      message: "Error Updating Password",
     });
   }
 };
@@ -48,7 +50,7 @@ exports.Profile = async (req, res) => {
   } catch (error) {
     console.error("Error Show Profile", error);
     res.status(500).json({
-      message: "Error Show Profile",      
+      message: "Error Show Profile",
     });
   }
 };

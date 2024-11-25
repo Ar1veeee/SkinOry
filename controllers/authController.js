@@ -1,8 +1,6 @@
-const {
-  createUser,
-  findUserByEmail,
-  User,
-} = require("../models/userModel");
+"use strict";
+
+const { createUser, findUserByEmail, User } = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -12,7 +10,12 @@ exports.register = async (req, res) => {
 
   const passwordRegex = /^[A-Z].{7,}$/;
   if (!passwordRegex.test(password)) {
-    return res.status(400).json({message: "Password must be at least 8 characters and begin with uppercase letters."});
+    return res
+      .status(400)
+      .json({
+        message:
+          "Password must be at least 8 characters and begin with uppercase letters.",
+      });
   }
 
   try {
@@ -65,7 +68,6 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 exports.refreshToken = async (req, res) => {
   const refresh_token = req.cookies.refreshToken;
