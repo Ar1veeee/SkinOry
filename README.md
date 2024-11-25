@@ -515,15 +515,8 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
 
 ### 10. **Add Day Skincare Routine**
 
-- **URL**: `/routine/:user_id/:category/day`
+- **URL**: `/routine/:user_id/:category/day/:product_id`
 - **Metode**: `POST`
-- **Body**:
-
-  ```json
-  {
-    "product_id": 2
-  }
-  ```
 
 - **Response**:
 
@@ -600,15 +593,8 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
 
 ### 11. **Add Night Skincare Routine**
 
-- **URL**: `/routine/:user_id/:category/night`
+- **URL**: `/routine/:user_id/:category/night/:product_id`
 - **Metode**: `POST`
-- **Body**:
-
-  ```json
-  {
-    "product_id": 2
-  }
-  ```
 
 - **Response**:
 

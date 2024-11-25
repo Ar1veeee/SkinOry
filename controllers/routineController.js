@@ -25,11 +25,10 @@ exports.getRecommendedProducts = async (req, res) => {
 };
 
 exports.DayRoutine = async (req, res) => {
-  const { user_id, category } = req.params;
-  const { product_id } = req.body;
+  const { user_id, category, product_id } = req.params;  
   if (!user_id || !product_id || !category) {
     return res.status(400).json({
-      message: "User ID, Product ID, Usage Time, and Category are required",
+      message: "User ID, Product ID, and Category are required",
     });
   }
 
@@ -92,11 +91,11 @@ exports.DeleteDayRoutine = async (req, res) => {
 };
 
 exports.NightRoutine = async (req, res) => {
-  const { user_id, category } = req.params;
-  const { product_id } = req.body;
+  const { user_id, category, product_id } = req.params;
+
   if (!user_id || !product_id || !category) {
     return res.status(400).json({
-      message: "User ID, Product ID, Usage Time, and Category are required",
+      message: "User ID, Product ID, and Category are required",
     });
   }
 

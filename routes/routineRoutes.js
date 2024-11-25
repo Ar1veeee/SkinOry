@@ -18,7 +18,7 @@ router.delete("/:user_id/night", verifyToken, DeleteNightRoutine);
 
 router.get("/:user_id/:category", verifyToken, getRecommendedProducts);
 
-router.post("/:user_id/:category/day", verifyToken, DayRoutine);
-router.post("/:user_id/:category/night", verifyToken, NightRoutine);
+router.post("/:user_id/:category/day/:product_id", verifyToken, DayRoutine);
+router.post("/:user_id/:category/night/:product_id", verifyToken, NightRoutine);
 
 module.exports = router;
