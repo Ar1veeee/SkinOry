@@ -39,6 +39,19 @@ const Best = {
       });
     });
   }, 
+
+  showAllBestProduct: () => {
+    return new Promise((resolve, reject) => {
+      const query = "SELECT * FROM best_products";
+      db.query(query, (error, results) => {
+        if (error) {
+          console.error("Error executing query:", error); 
+          return reject(error);
+        }
+        resolve(results[0]); 
+      });
+    });
+  }, 
 }
 
 module.exports = Best;

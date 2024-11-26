@@ -826,5 +826,31 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
     "message": "Error Updating Password"
   }
   ```
+### 15. **Show Best Products**
 
+- **URL**: `/best`
+- **Metode**: `GET`
+- **Response**:
+
+  ```json
+  {
+    "id": 1,
+    "name_product": "Facewash a",
+    "skin_type": "dry",
+    "category": "facewash",
+    "price": "20000.00",
+    "rating": "4.70",
+    "image_url": "ceritanya link",
+    "store_url": "ceritanya link"
+  }
+  ```
+
+  **Error Expired Refresh Token**:
+
+  ```json
+  {
+    "status": 500,
+    "message": "Error Server"
+  }
+  ```
 ##
