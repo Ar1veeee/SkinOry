@@ -29,7 +29,7 @@ This is the backend application for the **SkinOry** project, which serves as an 
 
 ### Prerequisites
 
-Make sure you have **Node.js** and **npm** (Node Package Manager) installed on your system, and add the json service account file for Pub/Sub to connect.
+Make sure you have **Node.js** and **npm** (Node Package Manager) installed on your system, and add the json service account file for Pub/Sub to connect. Create Pub/Sub topic and subscription if you want to use email feature
 
 ### Installation Steps
 
@@ -58,7 +58,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
 
    ```ini
    PORT=5000
-   DB_HOST=localhost/your-url-server
+   DB_HOST=localhost/your-db-server
    DB_USER=root
    DB_PASS=your_password
    DB_NAME=skinory
