@@ -123,7 +123,8 @@ const Routine = {
     });
   },
 
-  /*  Use this if you not using Memorystore Redist
+  /*
+  //--------use this if you not using Memorystore Redist
   getRecommendedProducts: async (user_id, category) => {
     const query = `
       SELECT p.*
@@ -140,10 +141,10 @@ const Routine = {
       });
     });
   },
-};
-*/
 
-getRecommendedProducts: async (user_id, category) => {
+  */ 
+ //------Use this if you using Memorystore Redist
+  getRecommendedProducts: async (user_id, category) => {
   const redisKey = `recommended:${user_id}:${category}`;
   const cachedData = await client.get(redisKey);
   if (cachedData) {
@@ -167,6 +168,7 @@ WHERE u.id = ? AND p.category = ?
     });
   });
 },
+
 };
 
 module.exports = Routine;

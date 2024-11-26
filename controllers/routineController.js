@@ -1,5 +1,5 @@
 "use strict";
-
+const pubsub = require("../config/googleCloud");
 const Routine = require("../models/routineModel");
 const Product = require("../models/productModel");
 const { User } = require("../models/userModel");
@@ -19,13 +19,13 @@ exports.getRecommendedProducts = async (req, res) => {
   } catch (error) {
     console.error("Error fetching recommended products:", error);
     res.status(500).json({
-      message: "Error fetching recommended products",      
+      message: "Error fetching recommended products",
     });
   }
 };
 
 exports.DayRoutine = async (req, res) => {
-  const { user_id, category, product_id } = req.params;  
+  const { user_id, category, product_id } = req.params;
   if (!user_id || !product_id || !category) {
     return res.status(400).json({
       message: "User ID, Product ID, and Category are required",
@@ -75,17 +75,26 @@ exports.DayRoutine = async (req, res) => {
 
 exports.DeleteDayRoutine = async (req, res) => {
   const { user_id } = req.params;
+
   try {
-    const user = await User.findAuthByUserId(user_id);
+    const user = await User.findUserById(user_id);
     if (!user) {
       return res.status(404).json({ message: "User Not Found" });
     }
     await Routine.deleteDayRoutinesByUserId(user_id);
+    const message = {
+      user_id: user_id,
+      action: "deleted_day_routine",
+    };
+
+    const dataBuffer = Buffer.from(JSON.stringify(message));
+    await pubsub.topic("day-routine-deleted-topic").publish(dataBuffer);
+
     res.status(202).json({ message: "Day Routine Deleted Successfully" });
   } catch (error) {
     console.error("Error Deleting Day Routine", error);
     res.status(500).json({
-      message: "Error Deleting Day Routine",      
+      message: "Error Deleting Day Routine",
     });
   }
 };
@@ -142,12 +151,21 @@ exports.NightRoutine = async (req, res) => {
 
 exports.DeleteNightRoutine = async (req, res) => {
   const { user_id } = req.params;
+
   try {
-    const user = await User.findAuthByUserId(user_id);
+    const user = await User.findUserById(user_id);
     if (!user) {
       return res.status(404).json({ message: "User Not Found" });
     }
     await Routine.deleteNightRoutinesByUserId(user_id);
+    const message = {
+      user_id: user_id,
+      action: "deleted_night_routine",
+    };
+
+    const dataBuffer = Buffer.from(JSON.stringify(message));
+    await pubsub.topic("day-routine-deleted-topic").publish(dataBuffer);
+
     res.status(202).json({ message: "Night Routine Deleted Successfully" });
   } catch (error) {
     console.error("Error Deleting Night Routine", error);
@@ -189,49 +207,6 @@ exports.getUserNightRoutines = async (req, res) => {
     console.error("Error fetching user routines:", error);
     res.status(500).json({
       message: "Error fetching user routines",
-    });
-  }
-};
-
-exports.updateAppliedStatus = async (req, res) => {
-  const { product_id, user_id } = req.params;
-  const { applied } = req.body;
-
-  if (
-    user_id === undefined ||
-    product_id === undefined ||
-    applied === undefined
-  ) {
-    return res.status(400).json({
-      message: "User ID, Product ID, and Applied status are required",
-    });
-  }
-
-  if (typeof applied !== "boolean") {
-    return res.status(400).json({
-      message: "Invalid value for applied. Allowed values: 'true', 'false'",
-    });
-  }
-
-  try {
-    const result = await Routine.updateAppliedStatus(
-      user_id,
-      product_id,
-      applied
-    );
-    if (result.affectedRows === 0) {
-      return res.status(404).json({
-        message: "Routine not found for the given user ID and product ID",
-      });
-    }
-
-    res.json({
-      message: "Applied status updated successfully",
-    });
-  } catch (error) {
-    console.error("Error updating applied status:", error);
-    res.status(500).json({
-      message: "Error updating applied status",      
     });
   }
 };
