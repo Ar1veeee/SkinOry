@@ -673,13 +673,6 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
 
 - **URL**: `/refresh`
 - **Metode**: `POST`
-- **Body**:
-
-  ```json
-  {
-    "newPassword": "Newpassword"
-  }
-  ```
 
 - **Response**:
 
