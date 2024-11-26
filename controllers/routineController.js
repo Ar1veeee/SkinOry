@@ -88,7 +88,7 @@ exports.DeleteDayRoutine = async (req, res) => {
     };
 
     const dataBuffer = Buffer.from(JSON.stringify(message));
-    await pubsub.topic("day-routine-deleted-topic").publish(dataBuffer);
+    await pubsub.topic("routine-deleted-topic").publish(dataBuffer);
 
     res.status(202).json({ message: "Day Routine Deleted Successfully" });
   } catch (error) {
@@ -164,7 +164,7 @@ exports.DeleteNightRoutine = async (req, res) => {
     };
 
     const dataBuffer = Buffer.from(JSON.stringify(message));
-    await pubsub.topic("day-routine-deleted-topic").publish(dataBuffer);
+    await pubsub.topic("routine-deleted-topic").publish(dataBuffer);
 
     res.status(202).json({ message: "Night Routine Deleted Successfully" });
   } catch (error) {
