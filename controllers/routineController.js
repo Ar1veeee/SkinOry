@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const Routine = require("../models/routineModel");
 const Product = require("../models/productModel");
@@ -14,26 +14,21 @@ exports.getRecommendedProducts = async (req, res) => {
   }
 
   try {
-    const products = await Routine.getRecommendedProducts(
-      user_id,
-      category
-    );
+    const products = await Routine.getRecommendedProducts(user_id, category);
     res.json({ products });
   } catch (error) {
     console.error("Error fetching recommended products:", error);
     res.status(500).json({
-      message: "Error fetching recommended products",
-      error: error.message,
+      message: "Error fetching recommended products",      
     });
   }
 };
 
 exports.DayRoutine = async (req, res) => {
-  const { user_id, category } = req.params;
-  const { product_id } = req.body;
+  const { user_id, category, product_id } = req.params;  
   if (!user_id || !product_id || !category) {
     return res.status(400).json({
-      message: "User ID, Product ID, Usage Time, and Category are required",
+      message: "User ID, Product ID, and Category are required",
     });
   }
 
@@ -54,7 +49,7 @@ exports.DayRoutine = async (req, res) => {
       });
     }
 
-    if (product.category !== category ) {
+    if (product.category !== category) {
       return res.status(400).json({
         message: `Product does not match the provided category "${category}"`,
       });
@@ -74,17 +69,33 @@ exports.DayRoutine = async (req, res) => {
     console.error("Error adding routine:", error);
     res.status(500).json({
       message: "Error adding routine",
-      error: error.message,
+    });
+  }
+};
+
+exports.DeleteDayRoutine = async (req, res) => {
+  const { user_id } = req.params;
+  try {
+    const user = await User.findAuthByUserId(user_id);
+    if (!user) {
+      return res.status(404).json({ message: "User Not Found" });
+    }
+    await Routine.deleteDayRoutinesByUserId(user_id);
+    res.status(202).json({ message: "Day Routine Deleted Successfully" });
+  } catch (error) {
+    console.error("Error Deleting Day Routine", error);
+    res.status(500).json({
+      message: "Error Deleting Day Routine",      
     });
   }
 };
 
 exports.NightRoutine = async (req, res) => {
-  const { user_id, category } = req.params;
-  const { product_id } = req.body;
+  const { user_id, category, product_id } = req.params;
+
   if (!user_id || !product_id || !category) {
     return res.status(400).json({
-      message: "User ID, Product ID, Usage Time, and Category are required",
+      message: "User ID, Product ID, and Category are required",
     });
   }
 
@@ -105,7 +116,7 @@ exports.NightRoutine = async (req, res) => {
       });
     }
 
-    if (product.category !== category ) {
+    if (product.category !== category) {
       return res.status(400).json({
         message: `Product does not match the provided category "${category}"`,
       });
@@ -125,7 +136,23 @@ exports.NightRoutine = async (req, res) => {
     console.error("Error adding routine:", error);
     res.status(500).json({
       message: "Error adding routine",
-      error: error.message,
+    });
+  }
+};
+
+exports.DeleteNightRoutine = async (req, res) => {
+  const { user_id } = req.params;
+  try {
+    const user = await User.findAuthByUserId(user_id);
+    if (!user) {
+      return res.status(404).json({ message: "User Not Found" });
+    }
+    await Routine.deleteNightRoutinesByUserId(user_id);
+    res.status(202).json({ message: "Night Routine Deleted Successfully" });
+  } catch (error) {
+    console.error("Error Deleting Night Routine", error);
+    res.status(500).json({
+      message: "Error Deleting Night Routine",
     });
   }
 };
@@ -144,7 +171,6 @@ exports.getUserDayRoutines = async (req, res) => {
     console.error("Error fetching user routines:", error);
     res.status(500).json({
       message: "Error fetching user routines",
-      error: error.message,
     });
   }
 };
@@ -163,7 +189,6 @@ exports.getUserNightRoutines = async (req, res) => {
     console.error("Error fetching user routines:", error);
     res.status(500).json({
       message: "Error fetching user routines",
-      error: error.message,
     });
   }
 };
@@ -206,8 +231,7 @@ exports.updateAppliedStatus = async (req, res) => {
   } catch (error) {
     console.error("Error updating applied status:", error);
     res.status(500).json({
-      message: "Error updating applied status",
-      error: error.message,
+      message: "Error updating applied status",      
     });
   }
 };

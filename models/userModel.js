@@ -1,3 +1,5 @@
+"use strict";
+
 const db = require("../config/db");
 const bcrypt = require("bcrypt");
 
@@ -25,7 +27,7 @@ const updateOldPassword = async (user_id, password) => {
         if (error) reject(error);
         resolve(results);
       }
-    )
+    );
   });
 };
 
@@ -55,15 +57,27 @@ const User = {
     });
   },
 
+  showUserById: async (user_id) => {
+    const query = `
+        SELECT * FROM users WHERE id = ?
+      `;
+    return new Promise((resolve, reject) => {
+      db.query(query, [user_id], (error, results) => {
+        if (error) reject(error);
+        resolve(results.length > 0 ? results : null);
+      });
+    });
+  },
+
   createOrUpdateAuthToken: (userId, activeToken, refreshToken) => {
-    return new Promise((resolve, reject) => {      
+    return new Promise((resolve, reject) => {
       db.query(
         "SELECT * FROM auth WHERE user_id = ?",
         [userId],
         (error, results) => {
           if (error) reject(error);
 
-          if (results.length > 0) {            
+          if (results.length > 0) {
             db.query(
               "UPDATE auth SET active_token = ?, refresh_token = ? WHERE user_id = ?",
               [activeToken, refreshToken, userId],
@@ -72,7 +86,7 @@ const User = {
                 resolve(updateResults);
               }
             );
-          } else {            
+          } else {
             db.query(
               "INSERT INTO auth (user_id, active_token, refresh_token) VALUES (?, ?, ?)",
               [userId, activeToken, refreshToken],

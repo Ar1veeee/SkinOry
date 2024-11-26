@@ -1,9 +1,6 @@
-const {
-  createUser,
-  updateOldPassword,
-  findUserByEmail,
-  User,
-} = require("../models/userModel");
+"use strict";
+
+const { createUser, findUserByEmail, User } = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -13,7 +10,12 @@ exports.register = async (req, res) => {
 
   const passwordRegex = /^[A-Z].{7,}$/;
   if (!passwordRegex.test(password)) {
-    return res.status(400).json({message: "Password must be at least 8 characters and begin with uppercase letters."});
+    return res
+      .status(400)
+      .json({
+        message:
+          "Password must be at least 8 characters and begin with uppercase letters.",
+      });
   }
 
   try {
@@ -39,7 +41,7 @@ exports.login = async (req, res) => {
       return res.status(400).json({ message: "Incorrect Password" });
 
     const activeToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "1d",
     });
     const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
@@ -64,37 +66,6 @@ exports.login = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
-  }
-};
-
-exports.updatePassword = async (req, res) => {
-  const { user_id } = req.params;
-  const { newPassword } = req.body;
-
-  const passwordRegex = /^[A-Z].{7,}$/;
-  if (!passwordRegex.test(newPassword)) {
-    return res.status(400).json({message: "Password must be at least 8 characters and begin with uppercase letters."});    
-  }
-
-  try {
-    const result = await updateOldPassword(
-      user_id,
-      newPassword
-    );
-    if (result.affectedRows === 0) {
-      return res.status(400).json({
-        message: "Password needs to be filled in",
-      });
-    }
-    res.status(201).json({
-      message: "Update Password Success"
-    });
-  } catch (error) {
-    console.error("Error Updating Password:", error);
-    res.status(500).json({
-      message: "Error Updating Password",
-      error: error.message,
-    });
   }
 };
 
