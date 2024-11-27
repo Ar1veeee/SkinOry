@@ -55,7 +55,7 @@ exports.AddBestProduct = async (req, res) => {
 
 exports.ShowBestProduct = async (req, res) => {
   try {
-    const best = await Best.showAllBestProduct();
+    const best = await Best.BestProductBySkinType();
     res.status(200).json({
       id: best.id,
       name_product: best.name_product,
