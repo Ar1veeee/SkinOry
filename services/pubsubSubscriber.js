@@ -2,9 +2,10 @@
 const nodemailer = require("nodemailer");
 const { User } = require("../models/userModel");
 const pubsub = require("../config/googleCloud");
+const Routine = require("../models/routineModel");
 const subscriptionDay = "day-routine-deleted-topic-sub";
 const subscriptionNight = "night-routine-deleted-topic-sub";
-require('dotenv').config();
+require("dotenv").config();
 
 async function sendEmail(userEmail, subject, text) {
   const transporter = nodemailer.createTransport({
@@ -31,36 +32,47 @@ async function listenForMessages() {
   const messageHandler = async (message) => {
     try {
       const data = JSON.parse(message.data.toString());
-      console.log('Received data:', data);
+      console.log("Received data:", data);
+
+      let routineDetails;
+
       if (data.action === "deleted_day_routine") {
-        const user = await User.findUserById(data.user_id); 
-        console.log('User found:', user);
+        routineDetails = await Routine.getDayRoutinesByUserId(data.user_id);
+        const user = await User.findUserById(data.user_id);
         if (!user) {
           console.error(`User not found: ${data.user_id}`);
           message.nack();
           return;
         }
-        
+
         await sendEmail(
           user.email,
           "Your Day Routine Has Been Deleted",
-          "Your Day routine has been successfully deleted from the system."
+          `Your Day Routine has been successfully deleted.\n\nDetails of deleted routine:\n${routineDetails
+            .map((r) => `- ${r.name_product} (Category: ${r.category})`)
+            .join("\n")}`
         );
+        await Routine.deleteDayRoutinesByUserId(data.user_id);
       }
+
       if (data.action === "deleted_night_routine") {
-        const user = await User.findUserById(data.user_id); 
-        console.log('User found:', user);
+        routineDetails = await Routine.getNightRoutinesByUserId(data.user_id);
+        const user = await User.findUserById(data.user_id);
+        
         if (!user) {
           console.error(`User not found: ${data.user_id}`);
           message.nack();
           return;
         }
-        
+
         await sendEmail(
           user.email,
           "Your Night Routine Has Been Deleted",
-          "Your Night routine has been successfully deleted from the system."
+          `Your Night Routine has been successfully deleted.\n\nDetails of deleted routine:\n${routineDetails
+            .map((r) => `- ${r.name_product} (Category: ${r.category})`)
+            .join("\n")}`
         );
+        await Routine.deleteNightRoutinesByUserId(data.user_id);
       }
 
       message.ack();
@@ -69,7 +81,6 @@ async function listenForMessages() {
       message.nack();
     }
   };
-
   subscription.on("message", messageHandler);
 }
 

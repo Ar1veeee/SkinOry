@@ -142,6 +142,7 @@ const Routine = {
     });
   },
   */ 
+
  //------Use this if you using Memorystore Redist
   getRecommendedProducts: async (user_id, category) => {
   const redisKey = `recommended:${user_id}:${category}`;
@@ -167,7 +168,6 @@ WHERE u.id = ? AND p.category = ?
     });
   });
 },
-
 };
 
 module.exports = Routine;
