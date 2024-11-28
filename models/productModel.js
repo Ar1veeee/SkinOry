@@ -53,6 +53,8 @@ const Product = {
         name_product,
         skin_type,
         category,
+        image_url,
+        price,
         rating
       FROM (
         SELECT
@@ -132,6 +134,8 @@ const Product = {
         name_product,
         skin_type,
         category,
+        image_url,
+        price,
         rating
       FROM (
         SELECT
