@@ -16,7 +16,7 @@ async function sendEmail(user, subject, routines, action) {
     },
   });
 
-  const userName = user.name ? user.name : "Valued Customer";
+  const userName = user.username ? user.username : "Valued Customer";
 
   const routineListHtml = routines
     .map(
