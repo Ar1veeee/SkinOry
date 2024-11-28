@@ -43,7 +43,7 @@ async function sendEmail(user, subject, routines, action) {
             border-radius: 8px;
           }
           .header {
-            background-color: #4CAF50;
+            background-color: #ff0303;
             color: white;
             padding: 15px;
             border-radius: 8px 8px 0 0;
