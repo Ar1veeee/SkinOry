@@ -770,81 +770,62 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
     "message": "Error Updating Password"
   }
   ```
-
-### 14. **Add Best Product**
-
-- **URL**: `/best`
-- **Metode**: `POST`
-
-- **Body**:
-
-  ```json
-  [
-    {
-      "name_product": "Facewash a",
-      "skin_type": "dry",
-      "category": "facewash",
-      "image_url": "link image",
-      "store_url": "link store",
-      "price": 20000.0,
-      "rating": 4.7
-    },
-    {
-      "name_product": "Facewash b",
-      "skin_type": "dry",
-      "category": "facewash",
-      "image_url": "link image",
-      "store_url": "link store",
-      "price": 20000.0,
-      "rating": 4.7
-    }
-  ]
-  ```
-
-- **Response**:
-
-  ```json
-  {
-    "message": "Product added successfully"
-  }
-  ```
-
-  **Error Not Inserted**:
-
-  ```json
-  {
-    "status": 400,
-    "message": "Name Product, Category, Price, Rating, Image URL, Store URL are required"
-  }
-  ```
-
-  **Error Expired Refresh Token**:
-
-  ```json
-  {
-    "status": 500,
-    "message": "Error Updating Password"
-  }
-  ```
 ### 15. **Show Best Products Based of User Skin Type**
 
-- **URL**: `/best/:user_id`
+- **URL**: `/product/best/:user_id`
 - **Metode**: `GET`
 - **Response**:
 
   ```json
-  {
-    "id": 1,
-    "name_product": "Facewash a",
-    "skin_type": "dry",
-    "category": "facewash",
-    "price": "20000.00",
-    "rating": "4.70",
-    "image_url": "ceritanya link",
-    "store_url": "ceritanya link"
-  }
+  [
+    {
+      "Best_Products": [
+        {
+            "id_product": 11,
+            "name_product": "Erha21 Erha 1 Facial Wash for Normal & Dry Skin 60ml - Sabun Muka",
+            "skin_type": "dry",
+            "category": "facewash",
+            "rating": "5.00"
+        },
+        {
+            "id_product": 61,
+            "name_product": "SOMETHINC Copy Paste Tinted Sunscreen SPF 40 PA++++ 10ml",
+            "skin_type": "dry",
+            "category": "sunscreen",
+            "image_url": "image url",
+            "price": "price",
+            "rating": "5.00"
+        },
+        {
+            "id_product": 94,
+            "name_product": "SOMETHINC GLOW MAKER AHA BHA PHA Clarifying Treatment Toner",
+            "skin_type": "dry",
+            "category": "toner",
+            "image_url": "image url",
+            "price": "price",
+            "rating": "5.00"
+        },
+        {
+            "id_product": 94,
+            "name_product": "SOMETHINC GLOW MAKER AHA BHA PHA Clarifying Treatment Toner",
+            "skin_type": "dry",
+            "category": "toner",
+            "image_url": "image url",
+            "price": "price",
+            "rating": "5.00"
+        },
+    }
+  ]
   ```
 
+  **Error User Not Found**:
+
+  ```json
+  {
+    "status": 400,
+    "message": "User ID is required"
+  }
+  ```
   **Error Expired Refresh Token**:
 
   ```json
