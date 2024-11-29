@@ -785,6 +785,9 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
             "name_product": "Erha21 Erha 1 Facial Wash for Normal & Dry Skin 60ml - Sabun Muka",
             "skin_type": "dry",
             "category": "facewash",
+            "image_url": "image url",
+            "store_url": "store url",
+            "price": "price",
             "rating": "5.00"
         },
         {
@@ -793,6 +796,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
             "skin_type": "dry",
             "category": "sunscreen",
             "image_url": "image url",
+            "store_url": "store url",
             "price": "price",
             "rating": "5.00"
         },
@@ -802,6 +806,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
             "skin_type": "dry",
             "category": "toner",
             "image_url": "image url",
+            "store_url": "store url",
             "price": "price",
             "rating": "5.00"
         },
@@ -811,6 +816,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
             "skin_type": "dry",
             "category": "toner",
             "image_url": "image url",
+            "store_url": "store url",
             "price": "price",
             "rating": "5.00"
         },

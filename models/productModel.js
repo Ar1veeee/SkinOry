@@ -117,9 +117,7 @@ const Product = {
  
  //Use this if you using Memorystore Redis
   getBestProducts: async (user_id) => {
-    const redisKey = `recommendede:${user_id}`;
-  
-    // Cek Redis cache
+    const redisKey = `recommendede:${user_id}`;    
     const cachedData = await client.get(redisKey);
     if (cachedData) {
       console.log("Data from Redis Cache");
@@ -135,6 +133,7 @@ const Product = {
         skin_type,
         category,
         image_url,
+        store_url,
         price,
         rating
       FROM (
@@ -144,6 +143,7 @@ const Product = {
           p.skin_type,
           p.category,
           p.image_url,
+          p.store_url,
           p.price,
           p.rating,
           @rank := IF(@skin_type_category = CONCAT(p.skin_type, '-', p.category), @rank + 1, 1) AS rank,
