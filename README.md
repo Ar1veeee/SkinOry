@@ -770,7 +770,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
     "message": "Error Updating Password"
   }
   ```
-### 15. **Show Best Products Based of User Skin Type**
+### 14. **Show Best Products Based of User Skin Type**
 
 - **URL**: `/product/best/:user_id`
 - **Metode**: `GET`
