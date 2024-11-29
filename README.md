@@ -787,8 +787,8 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
             "category": "facewash",
             "image_url": "image url",
             "store_url": "store url",
-            "price": "price",
-            "rating": "5.00"
+            "price": 40000.00,
+            "rating": 5.00
         },
         {
             "id_product": 61,
@@ -797,8 +797,8 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
             "category": "sunscreen",
             "image_url": "image url",
             "store_url": "store url",
-            "price": "price",
-            "rating": "5.00"
+            "price": 40000.00,
+            "rating": 5.00
         },
         {
             "id_product": 94,
@@ -807,8 +807,8 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
             "category": "toner",
             "image_url": "image url",
             "store_url": "store url",
-            "price": "price",
-            "rating": "5.00"
+            "price": 40000.00,
+            "rating": 5.00
         },
         {
             "id_product": 94,
@@ -817,9 +817,10 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
             "category": "toner",
             "image_url": "image url",
             "store_url": "store url",
-            "price": "price",
-            "rating": "5.00"
+            "price": 40000.00,
+            "rating": 5.00
         },
+      ]
     }
   ]
   ```
