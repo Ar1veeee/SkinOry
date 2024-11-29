@@ -190,7 +190,7 @@ const Product = {
   
       console.log("Query results:", results);
         
-      await client.set(redisKey, JSON.stringify(results), "EX", 3600);
+      await client.set(redisKey, JSON.stringify(results), "EX", 1200); //I set it to 20 minutes
   
       return results;
     } catch (error) {
