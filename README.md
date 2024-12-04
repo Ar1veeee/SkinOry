@@ -25,6 +25,9 @@ This is the backend application for the **SkinOry** project, which serves as an 
 - **@redis/client** - To connect the Node.js application to the Redis server.
 - **@google-cloud/pubsub** - To connect the Node.js application to the Pub/Sub resource.
 - **nodemailer** - A module for Node.js that is used to send emails easily. 
+- **compression** - A module for Node.js that is used to compress HTTP responses, thus reducing the size of the data sent to the client. 
+- **helmet** - A module for Node.js that is used to improve the security of Express applications by setting HTTP headers. 
+- **pm2** - A module for Node.js that is used to run the application stably and allow automatic restart if the application crashes. 
 
 ## Installations
 
