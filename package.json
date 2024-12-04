@@ -13,8 +13,7 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "mysql2": "^3.11.4",
-    "nodemailer": "^6.9.16",
-    "pm2": "^5.4.3"
+    "nodemailer": "^6.9.16"
   },
   "name": "cc_backends_apis",
   "version": "1.0.0",
@@ -27,7 +26,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
-    "start": "pm2 start server.js --name 'main_backend'"
+    "start": "node server.js"
   },
   "engines": {
     "node": ">=18.x",
