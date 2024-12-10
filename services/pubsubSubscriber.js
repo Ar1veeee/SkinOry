@@ -1,104 +1,60 @@
 "use strict";
 const nodemailer = require("nodemailer");
-const User  = require("../models/userModel");
+const User = require("../models/userModel");
 const pubsub = require("../config/googleCloud");
 const Routine = require("../models/routineModel");
-const subscriptionDay = "day-routine-deleted-topic-sub";
-const subscriptionNight = "night-routine-deleted-topic-sub";
 require("dotenv").config();
 
-console.log('Listening on project:', pubsub.projectId);
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_PASSWORD,
+  },
+});
+
+const EMAIL_TEMPLATE = `
+  <html>
+    <head>
+      <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { inline-size: 100%; max-inline-size: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px; }
+        .header { background-color: #ff0303; color: white; padding: 15px; border-radius: 8px 8px 0 0; text-align: center; }
+        .content { padding: 20px; background-color: white; border-radius: 0 0 8px 8px; }
+        .product-list { list-style-type: none; padding: 0; }
+        .product-list li { padding: 8px; margin-block-end: 10px; border: 1px solid #ddd; border-radius: 5px; background-color: #f7f7f7; }
+        .footer { text-align: center; font-size: 12px; color: #777; margin-block-start: 20px; }
+        .footer a { color: #4CAF50; text-decoration: none; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h2>Your {{action}} Routine Has Been Deleted</h2>
+        </div>
+        <div class="content">
+          <p>Dear {{username}},</p>
+          <p>Your {{action}} routine has been successfully deleted. Below are the details of the routine that was removed:</p>
+          <ul class="product-list">{{routineList}}</ul>
+          <p>If you need further assistance, feel free to <a href="mailto:aliefarifin99@gmail.com">contact us</a>.</p>
+        </div>
+        <div class="footer">
+          <p>&copy; {{year}} Skinory. All rights reserved.</p>
+        </div>
+      </div>
+    </body>
+  </html>
+`;
 
 async function sendEmail(user, subject, routines, action) {
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-  });
-
-  const userName = user.username ? user.username : "Valued Customer";
-
   const routineListHtml = routines
-    .map(
-      (routine) =>
-        `<li><strong>${routine.product_name}</strong> (${routine.category})</li>`
-    )
+    .map((routine) => `<li><strong>${routine.product_name}</strong> (${routine.category})</li>`)
     .join("");
 
-  const htmlContent = `
-    <html>
-      <head>
-        <style>
-          body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-          }
-          .container {
-            inline-size: 100%;
-            max-inline-size: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-          }
-          .header {
-            background-color: #ff0303;
-            color: white;
-            padding: 15px;
-            border-radius: 8px 8px 0 0;
-            text-align: center;
-          }
-          .content {
-            padding: 20px;
-            background-color: white;
-            border-radius: 0 0 8px 8px;
-          }
-          .product-list {
-            list-style-type: none;
-            padding: 0;
-          }
-          .product-list li {
-            padding: 8px;
-            margin-block-end: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f7f7f7;
-          }
-          .footer {
-            text-align: center;
-            font-size: 12px;
-            color: #777;
-            margin-block-start: 20px;
-          }
-          .footer a {
-            color: #4CAF50;
-            text-decoration: none;
-          }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <h2>Your ${action} Routine Has Been Deleted</h2>
-          </div>
-          <div class="content">
-            <p>Dear ${userName},</p>
-            <p>Your ${action.toLowerCase()} routine has been successfully deleted. Below are the details of the routine that was removed:</p>
-            <ul class="product-list">
-              ${routineListHtml}
-            </ul>
-            <p>If you need further assistance or have any questions, feel free to <a href="mailto:aliefarifin99@gmail.com">contact us</a>.</p>
-          </div>
-          <div class="footer">
-            <p>&copy; ${new Date().getFullYear()} Skinory. All rights reserved.</p>
-          </div>
-        </div>
-      </body>
-    </html>
-  `;
+  const htmlContent = EMAIL_TEMPLATE.replace("{{action}}", action)
+    .replace("{{username}}", user.username || "Valued Customer")
+    .replace("{{routineList}}", routineListHtml)
+    .replace("{{year}}", new Date().getFullYear());
 
   const mailOptions = {
     from: `"Skinory Service" <${process.env.EMAIL}>`,
@@ -111,8 +67,10 @@ async function sendEmail(user, subject, routines, action) {
 }
 
 async function listenForMessages() {
-  const daySubscription = pubsub.subscription(subscriptionDay);
-  const nightSubscription = pubsub.subscription(subscriptionNight);
+  const subscriptions = [
+    pubsub.subscription("day-routine-deleted-topic-sub"),
+    pubsub.subscription("night-routine-deleted-topic-sub"),
+  ];
 
   const messageHandler = async (message) => {
     try {
@@ -120,48 +78,23 @@ async function listenForMessages() {
       console.log("Received data:", data);
 
       const user = await User.findUserById(data.user_id);
+      if (!user) throw new Error(`User not found: ${data.user_id}`);
 
-      if (!user) {
-        console.error(`User not found: ${data.user_id}`);
-        message.nack();
-        return;
+      let routineDetails = data.routines || [];
+      const action = data.action.includes("day") ? "Day" : "Night";
+
+      if (!routineDetails.length) {
+        routineDetails = action === "Day" 
+          ? await Routine.getDayRoutinesByUserId(data.user_id) 
+          : await Routine.getNightRoutinesByUserId(data.user_id);
       }
 
-      let routineDetails = data.routines; // Gunakan langsung dari Pub/Sub jika tersedia
-      let action;
+      if (!routineDetails.length) throw new Error(`No routines found for user: ${data.user_id}`);
 
-      if (data.action === "deleted_day_routine") {
-        action = "Day";
-        // Jika data tidak ada, fallback ke database
-        if (!routineDetails || routineDetails.length === 0) {
-          routineDetails = await Routine.getDayRoutinesByUserId(data.user_id);
-        }
-        await Routine.deleteDayRoutinesByUserId(data.user_id); // Hapus di database
-      } else if (data.action === "deleted_night_routine") {
-        action = "Night";
-        if (!routineDetails || routineDetails.length === 0) {
-          routineDetails = await Routine.getNightRoutinesByUserId(data.user_id);
-        }
-        await Routine.deleteNightRoutinesByUserId(data.user_id); // Hapus di database
-      } else {
-        console.warn(`Unhandled action type: ${data.action}`);
-        message.ack();
-        return;
-      }
+      if (action === "Day") await Routine.deleteDayRoutinesByUserId(data.user_id);
+      else await Routine.deleteNightRoutinesByUserId(data.user_id);
 
-      if (!routineDetails || routineDetails.length === 0) {
-        console.warn(`No routines found for user: ${data.user_id}`);
-        message.ack();
-        return;
-      }
-
-      await sendEmail(
-        user,
-        `Your ${action} Routine Has Been Deleted`,
-        routineDetails,
-        action
-      );
-
+      await sendEmail(user, `Your ${action} Routine Has Been Deleted`, routineDetails, action);
       message.ack();
     } catch (error) {
       console.error("Error handling Pub/Sub message:", error);
@@ -169,8 +102,7 @@ async function listenForMessages() {
     }
   };
 
-  daySubscription.on("message", messageHandler);
-  nightSubscription.on("message", messageHandler);
+  subscriptions.forEach((sub) => sub.on("message", messageHandler));
 }
 
 module.exports = { listenForMessages };

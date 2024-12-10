@@ -1,110 +1,85 @@
-  "use strict";
+"use strict";
 
-  const db = require("../config/db");
-  const bcrypt = require("bcrypt");
+const db = require("../config/db");
+const bcrypt = require("bcrypt");
 
+const executeQuery = async (query, params = []) => {
+  return new Promise((resolve, reject) => {
+    db.query(query, params, (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
 
-  const User = {
-    // Creates a new user with hashed password and specified skin type
-    createUser: async (username, email, password, skin_type) => {
-      const query = `
+const User = {
+  // Creates a new user with hashed password and specified skin type
+  createUser: async (username, email, password, skin_type) => {
+    const query = `
       INSERT INTO users (username, email, password, skin_type) VALUES (?, ?, ?, ?)
-      `;
-      const hashedPassword = await bcrypt.hash(password, 10);
-      return new Promise((resolve, reject) => {
-        db.query(query, [username, email, hashedPassword, skin_type], (error, results) => {
-          if (error) reject(error);
-          resolve(results);
-        })
-      })
-    },
+    `;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    return executeQuery(query, [username, email, hashedPassword, skin_type]);
+  },
 
-    // Updates an existing user's password
-    updateOldPassword: async (user_id, password) => {
-      const query = `
-        UPDATE users SET password = ? WHERE id = ?
-      `;
-      const newPasswordHash = await bcrypt.hash(password, 10);
-      return new Promise((resolve, reject) => {
-        db.query(query, [newPasswordHash, user_id], (error, results) => {
-          if (error) reject(error);
-          resolve(results);
-        });
-      });
-    },
+  // Updates an existing user's password
+  updateOldPassword: async (user_id, password) => {
+    const query = `
+      UPDATE users SET password = ? WHERE id = ?
+    `;
+    const newPasswordHash = await bcrypt.hash(password, 10);
+    return executeQuery(query, [newPasswordHash, user_id]);
+  },
 
-    // Finds a user by their email address
-    findUserByEmail: async (email) => {
-      const query = `
-          SELECT * FROM users WHERE email = ?
-        `;
-      return new Promise((resolve, reject) => {
-        db.query(query, [email], (error, results) => {
-          if (error) reject(error);
-          resolve(results[0]);
-        });
-      });
-    },
+  // Finds a user by their email address
+  findUserByEmail: async (email) => {
+    const query = `
+      SELECT * FROM users WHERE email = ?
+    `;
+    const results = await executeQuery(query, [email]);
+    return results[0] || null;
+  },
 
-    // Finds a user by their unique ID
-    findUserById: async (user_id) => {
-      const query = `
-          SELECT * FROM users WHERE id = ?
-        `;
-      return new Promise((resolve, reject) => {
-        db.query(query, [user_id], (error, results) => {
-          if (error) reject(error);
-          resolve(results.length > 0 ? results[0] : null);
-        });
-      });
-    },
+  // Finds a user by their unique ID
+  findUserById: async (user_id) => {
+    const query = `
+      SELECT * FROM users WHERE id = ?
+    `;
+    const results = await executeQuery(query, [user_id]);
+    return results[0] || null;
+  },
 
-    // Creates or updates authentication tokens for a user
-    createOrUpdateAuthToken: (user_id, activeToken, refreshToken) => {
-      return new Promise((resolve, reject) => {
-        db.query(
-          "SELECT * FROM auth WHERE user_id = ?",
-          [user_id],
-          (error, results) => {
-            if (error) reject(error);
+  // Creates or updates authentication tokens for a user
+  createOrUpdateAuthToken: async (user_id, activeToken, refreshToken) => {
+    const checkQuery = `
+      SELECT * FROM auth WHERE user_id = ?
+    `;
+    const updateQuery = `
+      UPDATE auth SET active_token = ?, refresh_token = ? WHERE user_id = ?
+    `;
+    const insertQuery = `
+      INSERT INTO auth (user_id, active_token, refresh_token) VALUES (?, ?, ?)
+    `;
 
-            if (results.length > 0) {
-              db.query(
-                "UPDATE auth SET active_token = ?, refresh_token = ? WHERE user_id = ?",
-                [activeToken, refreshToken, user_id],
-                (updateError, updateResults) => {
-                  if (updateError) reject(updateError);
-                  resolve(updateResults);
-                }
-              );
-            } else {
-              db.query(
-                "INSERT INTO auth (user_id, active_token, refresh_token) VALUES (?, ?, ?)",
-                [user_id, activeToken, refreshToken],
-                (insertError, insertResults) => {
-                  if (insertError) reject(insertError);
-                  resolve(insertResults);
-                }
-              );
-            }
-          }
-        );
-      });
-    },
+    const results = await executeQuery(checkQuery, [user_id]);
+    if (results.length > 0) {
+      return executeQuery(updateQuery, [activeToken, refreshToken, user_id]);
+    } else {
+      return executeQuery(insertQuery, [user_id, activeToken, refreshToken]);
+    }
+  },
 
-    // Finds authentication tokens for a given user ID
-    findAuthByUserId: (userId) => {
-      return new Promise((resolve, reject) => {
-        db.query(
-          "SELECT * FROM auth WHERE user_id = ?",
-          [userId],
-          (error, results) => {
-            if (error) reject(error);
-            resolve(results[0] || null);
-          }
-        );
-      });
-    },
-  };
+  // Finds authentication tokens for a given user ID
+  findAuthByUserId: async (userId) => {
+    const query = `
+      SELECT * FROM auth WHERE user_id = ?
+    `;
+    const results = await executeQuery(query, [userId]);
+    return results[0] || null;
+  },
+};
 
-  module.exports = User;
+module.exports = User;
