@@ -4,16 +4,16 @@ const Product = require("../models/productModel");
 exports.BestProducts = async (req, res) => {
   const { user_id } = req.params;
 
-  // Validasi parameter
+  // Parameter validation
   if (!user_id) {
     return res.status(400).json({ message: "User ID is required" });
   }
 
   try {
-    // Ambil data produk terbaik
+    // Retrieve the best product data
     const bestProducts = await Product.getBestProducts(user_id);
 
-    // Kirimkan hasil
+    // Submit the results
     res.status(200).json({ bestProducts });
   } catch (error) {
     console.error("Error fetching Best Products:", error.message);

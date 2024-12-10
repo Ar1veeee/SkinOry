@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-// Helper untuk validasi input
+// Helper for input validation
 const passwordRegex = /^[A-Z].{7,}$/;
 
 // Middleware untuk validasi password
@@ -13,7 +13,7 @@ const validatePassword = (password) => {
   return passwordRegex.test(password);
 };
 
-// Helper untuk membuat token JWT
+// Helper to create JWT token
 const generateToken = (payload, secret, expiresIn) => {
   return jwt.sign(payload, secret, { expiresIn });
 };
@@ -30,12 +30,12 @@ exports.register = async (req, res) => {
   }
 
   try {
-    // Cek apakah email sudah digunakan
+    // Check if email is already in use
     const existingUser = await User.findUserByEmail(email);
     if (existingUser)
       return res.status(400).json({ message: "Email Already Exist" });
 
-    // Simpan pengguna baru
+    // Save new user
     await User.createUser(username, email, password, skin_type);
     return res.status(201).json({ message: "Registration Successfully" });
   } catch (error) {
@@ -51,12 +51,12 @@ exports.login = async (req, res) => {
     const user = await User.findUserByEmail(email);
     if (!user) return res.status(404).json({ message: "User Not Found" });
 
-    // Verifikasi password
+    // Verify password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid)
       return res.status(400).json({ message: "Incorrect Password" });
 
-    // Buat token
+    // Create token
     const activeToken = generateToken(
       { id: user.id },
       process.env.JWT_SECRET,
@@ -70,7 +70,7 @@ exports.login = async (req, res) => {
 
     await User.createOrUpdateAuthToken(user.id, activeToken, refreshToken);
 
-    // Atur cookie refresh token
+    // Set cookie refresh token
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true,
@@ -100,18 +100,18 @@ exports.refreshToken = async (req, res) => {
   }
 
   try {
-    // Verifikasi refresh token
+    // Verify refresh token
     const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
     const user = await User.findUserById(decoded.id);
     if (!user) return res.status(404).json({ message: "User Not Found" });
 
-    // Pastikan token cocok dengan yang ada di database
+    // Make sure the token matches the one in the database
     const authRecord = await User.findAuthByUserId(user.id);
     if (!authRecord || authRecord.refresh_token !== refreshToken) {
       return res.status(403).json({ message: "Invalid Refresh Token" });
     }
 
-    // Buat token baru
+    // Create new token
     const activeToken = generateToken(
       { id: user.id },
       process.env.JWT_SECRET,
