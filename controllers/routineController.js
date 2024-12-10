@@ -17,6 +17,26 @@ const ERROR_MESSAGES = {
     `Product does not match the provided category "${category}".`,
 };
 
+exports.getRecommendedProducts = async (req, res) => {
+  const { user_id, category } = req.params;
+
+  if (!user_id || !category) {
+    return res.status(400).json({
+      message: "User ID, and Category are required",
+    });
+  }
+
+  try {
+    const products = await Routine.getRecommendedProducts(user_id, category);
+    res.json({ products });
+  } catch (error) {
+    console.error("Error fetching recommended products:", error);
+    res.status(500).json({
+      message: "Error fetching recommended products",
+    });
+  }
+};
+
 const validateUserAndProduct = async (user_id, product_id) => {
   const [user, product] = await Promise.all([
     User.findUserById(user_id),
