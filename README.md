@@ -120,8 +120,8 @@ If you like this app, please consider supporting us:
 
 - [Back-End and Cloud Engineer - Alief Arifin Mahardiko](https://github.com/Ar1veeee/Ar1veeee)
 - [Cloud Engineer - Fauzi Adam Prasetyo](https://github.com/KIJOTARO)
-- [Front-End - Rendra Prasetya Pardede](https://github.com/rendra-p)
-- [Machine Learning Engineer - Eva Theresia](https://github.com/Evathrsprdd)
+- [Front-End - Rendra Prasetya](https://github.com/rendra-p)
+- [Machine Learning Engineer - Eva Theresia Pardede](https://github.com/Evathrsprdd)
 - [Machine Learning Engineer - Mutia Nashiroh Ramadhani](https://github.com/muthiarmdn)
 - [Machine Learning Engineer - Zam-Zam Berlian](https://github.com/berlianazm)
 
