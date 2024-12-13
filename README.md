@@ -76,7 +76,7 @@
 - **Best Product List**
   - Help users discover the best products tailored to their skin type.
 - **Article List**
-  - Help users discover the best products tailored to their skin type.
+  - Help users to keep on update to newest skin care news.
 
 ## How To Use
 
