@@ -80,7 +80,7 @@
 
 ## How To Use
 
-1. Download the APK file from  [google drive](https://drive.google.com/uc?export=download&id=1m0LAkMiQKnDv_4j1-9pXWBEjtDpg0wIE) or contact the developer.
+1. Download the APK file from  [google drive](https://drive.google.com/uc?export=download&id=1m0LAkMiQKnDv_4j1-9pXWBEjtDpg0wIE) or you can download directly from GitHub sub Releases.
 2. Enable installation from unknown sources on your Android device:
    - Go to **Settings > Security > Unknown Sources** and toggle it on.
 3. Install the APK file and open the app.
