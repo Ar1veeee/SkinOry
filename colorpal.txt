@@ -1,0 +1,17 @@
+#fbd7d0	= kek pink
+
+#151e3e = kek biru hitam
+
+#efa78e = kek peach
+
+#385e78 = kek biru oksidasi
+
+#5bb3ba = kek tosca
+
+
+
+font 
+aslinya Oblik tapi mahal
+jadi pake Nunito Bold
+
+bisa ambil dari google font = https://fonts.google.com/specimen/Nunito
