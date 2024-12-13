@@ -122,7 +122,7 @@ If you like this app, please consider supporting us:
 - [Cloud Engineer - Fauzi Adam Prasetyo](https://github.com/KIJOTARO)
 - [Front-End - Rendra Prasetya](https://github.com/rendra-p)
 - [Machine Learning Engineer - Eva Theresia Pardede](https://github.com/Evathrsprdd)
-- [Machine Learning Engineer - Mutia Nashiroh Ramadhani](https://github.com/muthiarmdn)
+- [Machine Learning Engineer - Muthia Nashiroh Ramadhani](https://github.com/muthiarmdn)
 - [Machine Learning Engineer - Zam-Zam Berlian](https://github.com/berlianazm)
 
 ## License
