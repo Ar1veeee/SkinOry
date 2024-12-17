@@ -665,7 +665,7 @@ Make sure you have **Node.js** and **npm** (Node Package Manager) installed on y
 ### 12. **Edit Password**
 
 - **URL**: `/profile/:user`
-- **Metode**: `POST`
+- **Metode**: `PATCH`
 
 - **Body**:
 
